@@ -1,6 +1,7 @@
 * text=auto !eol
 connector/pom.xml -text
 connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepository.java -text
+connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepositoryBasedJcrRepositoryFactory.java -text
 /pom.xml -text
 servlet/pom.xml -text
 servlet/src/main/java/org/onehippo/forge/repository/server/remoting/davex/JcrRemotingServlet.java -text
