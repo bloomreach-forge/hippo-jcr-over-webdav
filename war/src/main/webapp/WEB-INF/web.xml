@@ -14,7 +14,7 @@
   -->
   <servlet>
     <servlet-name>JCRWebdavServer</servlet-name>
-    <servlet-class>org.hippoecm.repository.server.remoting.davex.JcrRemotingServlet</servlet-class>
+    <servlet-class>org.onehippo.forge.repository.server.remoting.davex.JcrRemotingServlet</servlet-class>
     <init-param>
       <param-name>missing-auth-mapping</param-name>
       <param-value></param-value>

@@ -57,6 +57,7 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
         if (repository != null) {
             repository.closeHippoRepository();
         }
+
         super.destroy();
     }
 
@@ -73,6 +74,7 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
                 log.error("Repository is not found.", e);
             }
         }
+
         return repository;
     }
 }
@@ -141,6 +143,7 @@ class JcrHippoRepositoryWrapper implements Repository {
         if (hippoRepository != null) {
             final String location = hippoRepository.getLocation();
             boolean isRemoteRepository = location != null && (location.startsWith("rmi:") || location.startsWith("http:") || location.startsWith("https:"));
+
             if (isRemoteRepository) {
                 hippoRepository.close();
             }
