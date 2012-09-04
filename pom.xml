@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2011 Hippo Licensed under the Apache License, Version 2.0
-  (the "License"); you may not use this file except in compliance with
-  the License. You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0 Unless required by
-  applicable law or agreed to in writing, software distributed under
-  the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
-  OR CONDITIONS OF ANY KIND, either express or implied. See the
-  License for the specific language governing permissions and
-  limitations under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+  Copyright 2011 Hippo
   
+  Licensed under the Apache License, Version 2.0 
+  (the "License"); you may not use this file except in compliance with the 
+  License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+  Unless required by applicable law or agreed to in writing, software distributed 
+  under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+  OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+  the specific language governing permissions and limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <name>Hippo Repository JCR/WebDAV Support</name>
   <description>Hippo Repository JCR/WebDAV Support</description>
   <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
   <artifactId>hipporepojcrdav</artifactId>
   <version>0.01.00-SNAPSHOT</version>
+  <packaging>pom</packaging>
   <url>http://hipporepojcrdav.forge.onehippo.org/</url>
 
   <properties>
@@ -27,6 +28,13 @@
     <project.build.javaVersion>1.5</project.build.javaVersion>
 
     <jcr.version>2.0</jcr.version>
+    <servlet-api.version>2.4</servlet-api.version>
+    <jackrabbit.version>2.2.12</jackrabbit.version>
+
+    <lib.junit.version>4.8.2</lib.junit.version>
+    <lib.easymock.version>3.0</lib.easymock.version>
+    <lib.slf4j.version>1.6.1</lib.slf4j.version>
+    <lib.log4j.version>1.2.16</lib.log4j.version>
 
     <plugin.checkstyle.version>2.6</plugin.checkstyle.version>
     <plugin.cobertura.version>2.4</plugin.cobertura.version>
@@ -104,30 +112,83 @@
     </repository>
   </repositories>
 
-  <dependencies>
-    
-    <dependency>
-      <groupId>javax.jcr</groupId>
-      <artifactId>jcr</artifactId>
-      <version>${jcr.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${lib.slf4j.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    
-  </dependencies>
+  <dependencyManagement>
+
+    <dependencies>
+
+      <dependency>
+        <groupId>javax.jcr</groupId>
+        <artifactId>jcr</artifactId>
+        <version>${jcr.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servlet-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${lib.slf4j.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-jcr2dav</artifactId>
+        <version>${jackrabbit.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-jcr-server</artifactId>
+        <version>${jackrabbit.version}</version>
+      </dependency>
+
+      <!-- TEST DEPENDENCIES -->
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${lib.slf4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${lib.slf4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${lib.log4j.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${lib.junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>${lib.easymock.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+
+  </dependencyManagement>
 
   <reporting>
     <plugins>
@@ -194,6 +255,11 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <modules>
+    <module>servlet</module>
+    <module>war</module>
+  </modules>
 
   <build>
 

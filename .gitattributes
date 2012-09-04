@@ -1,2 +1,5 @@
 * text=auto !eol
 /pom.xml -text
+servlet/pom.xml -text
+war/pom.xml -text
+war/src/main/webapp/WEB-INF/web.xml -text
