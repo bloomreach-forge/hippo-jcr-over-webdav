@@ -1,6 +1,12 @@
 /.classpath
 /.project
 /.settings
+servlet/.classpath
+servlet/.project
+servlet/.settings
 servlet/target
 /target
+war/.classpath
+war/.project
+war/.settings
 war/target
