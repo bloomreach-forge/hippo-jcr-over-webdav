@@ -1,6 +1,9 @@
 /.classpath
 /.project
 /.settings
+connector/.classpath
+connector/.project
+connector/.settings
 connector/target
 servlet/.classpath
 servlet/.project
