@@ -28,6 +28,7 @@
     <project.build.javaVersion>1.5</project.build.javaVersion>
 
     <jcr.version>2.0</jcr.version>
+    <geronimo-jta_1.1_spec.version>1.1</geronimo-jta_1.1_spec.version>
     <servlet-api.version>2.4</servlet-api.version>
     <jackrabbit.version>2.2.12</jackrabbit.version>
     <hippo.repository.version>2.22.08</hippo.repository.version>
@@ -116,6 +117,13 @@
   <dependencyManagement>
 
     <dependencies>
+
+      <dependency>
+        <groupId>org.apache.geronimo.specs</groupId>
+        <artifactId>geronimo-jta_1.1_spec</artifactId>
+        <version>${geronimo-jta_1.1_spec.version}</version>
+        <scope>provided</scope>
+      </dependency>
 
       <dependency>
         <groupId>javax.servlet</groupId>
