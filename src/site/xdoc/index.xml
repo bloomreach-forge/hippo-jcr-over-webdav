@@ -35,7 +35,7 @@
       </p>
       <p>
         <em>
-          <strong>WARNING:</strong> However, this module does not support Hippo specific virtual node related APIs and workflow APIs.
+          <strong>WARNING:</strong> This module support pure JCR API only. It DOES NOT SUPPORT Hippo specific virtual node related APIs and workflow APIs.
         </em>
       </p>
     </section>
