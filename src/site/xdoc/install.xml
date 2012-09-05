@@ -23,8 +23,125 @@
   </properties>
   <body>
     <section name="Installation">
-      <p>
-      </p>
+      <subsection name="Add Dependencies in Repository Web Application">
+        <p>
+          Add the following dependencies into your Hippo Repository Web Application (e.g., '/cms').
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+
+    <!-- SNIP -->
+
+    <forge.hipporepojcrdav.version>0.01.00</forge.hipporepojcrdav.version>
+    <jackrabbit.version>2.2.12-h2</jackrabbit.version>
+
+    <!-- SNIP -->
+
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-jcr-server</artifactId>
+      <version>${jackrabbit.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
+      <artifactId>hipporepojcrdav-servlet</artifactId>
+      <version>${forge.hipporepojcrdav.version}</version>
+    </dependency>
+
+    <!-- SNIP -->
+
+          ]]></source>
+        </div>
+      </subsection>
+      <subsection name="Add Servlet in Repository Web Application">
+        <p>
+          Add the following servlet configurations into your Hippo Repository Web Application (e.g., '/cms').
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+
+  <!-- SNIP -->
+
+  <!--
+    JCR over WebDAV Server Servlet:
+    WARNING: This servlet gives accesses to repository through WebDAV with Basic Authentication by default.
+             So, you may want to put more secured access controls on the communication channel where needed.
+  -->
+  <servlet>
+    <servlet-name>JCRWebdavServer</servlet-name>
+    <servlet-class>org.onehippo.forge.repository.server.remoting.davex.JcrRemotingServlet</servlet-class>
+    <init-param>
+      <param-name>repository-address</param-name>
+      <param-value>vm://</param-value>
+    </init-param>
+    <init-param>
+      <param-name>missing-auth-mapping</param-name>
+      <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>authenticate-header</param-name>
+      <param-value>Basic realm="Hippo Repository Webdav Server"</param-value>
+    </init-param>
+    <init-param>
+      <param-name>resource-path-prefix</param-name>
+      <param-value>/server</param-value>
+    </init-param>
+    <load-on-startup>6</load-on-startup>
+  </servlet>
+
+  <!-- SNIP -->
+
+  <!--
+    JCR over WebDAV Server Servlet Mapping:
+  -->
+  <servlet-mapping>
+    <servlet-name>JCRWebdavServer</servlet-name>
+    <url-pattern>/server/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- SNIP -->
+
+          ]]></source>
+        </div>
+      </subsection>
+      <subsection name="How to Know It's Working?">
+        <p>
+          You can test if it is working by running command lines like the following example.
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl http://localhost:8080/cms/server/default/jcr:root/
+          ]]></source>
+        </div>
+        <p>
+          If successful, you get the following result:
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="jcr:root">
+  <sv:property sv:name="jcr:primaryType" sv:type="Name">
+    <sv:value>rep:root</sv:value>
+  </sv:property>
+  <sv:property sv:name="jcr:mixinTypes" sv:type="Name" sv:multiple="true">
+    <sv:value>mix:referenceable</sv:value>
+  </sv:property>
+  <sv:property sv:name="jcr:uuid" sv:type="String">
+    <sv:value>cafebabe-cafe-babe-cafe-babecafebabe</sv:value>
+  </sv:property>
+</sv:node>
+          ]]></source>
+        </div>
+        <p>
+          <em>Tip: You can provide credentials like the following:</em>
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --user admin:admin http://localhost:8080/cms/server/default/jcr:root/
+          ]]></source>
+        </div>
+      </subsection>
     </section>
   </body>
 </document>

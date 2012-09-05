@@ -31,5 +31,21 @@
         <em>WARNING: However, this module does not support Hippo specific virtual node related APIs and workflow APIs.</em>
       </p>
     </section>
+    <section name="Demo Application">
+      <p>You can check out, build and run demo application, which contains all the examples explained in this site documentation.</p>
+      <p>Here are example commands to check out, build and run demo application:</p>
+      <div class="brush: bash">
+        <source><![CDATA[
+$ svn checkout https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav-demo/trunk hipporepojcrdav-demo-TRUNK
+$ cd hipporepojcrdav-demo-TRUNK
+$ mvn clean install
+$ mvn -P cargo.run
+        ]]></source>
+      </div>
+      <p>
+        Visit http://localhost:8080/site/ and try 'JCR/WebDAV Example 1', 'JCR/WebDAV Example 2' and ''JCR/WebDAV Example 3'.
+        Each source file of those can be found in '/site/examples/about1.jsp', '/site/examples/about2.jsp', and '/site/examples/about3.jsp'.
+      </p>
+    </section>
   </body>
 </document>

@@ -55,7 +55,7 @@ src/site/resources/sh/styles/shThemeMidnight.css -text
 src/site/resources/sh/styles/shThemeRDark.css -text
 src/site/site.xml -text
 src/site/xdoc/cmd-examples.xml -text
-src/site/xdoc/code-examples.xml -text
 src/site/xdoc/index.xml -text
 src/site/xdoc/install.xml -text
 src/site/xdoc/release-notes.xml -text
+src/site/xdoc/remote-repository.xml -text
