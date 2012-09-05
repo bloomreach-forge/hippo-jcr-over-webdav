@@ -29,12 +29,14 @@
       </p>
       <p>
         <em>
-          WARNING: This module is in EXPERIMENTAL STATUS and depending on Hippo Repository TRUNK version.
+          <strong>WARNING:</strong> This module is in EXPERIMENTAL STATUS and depending on Hippo Repository TRUNK version.
           So, please do not use this module if you don't know what you are doing exactly.
         </em>
       </p>
       <p>
-        <em>WARNING: However, this module does not support Hippo specific virtual node related APIs and workflow APIs.</em>
+        <em>
+          <strong>WARNING:</strong> However, this module does not support Hippo specific virtual node related APIs and workflow APIs.
+        </em>
       </p>
     </section>
     <section name="Demo Application">
