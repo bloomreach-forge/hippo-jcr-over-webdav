@@ -30,6 +30,15 @@ import org.hippoecm.repository.HippoRepositoryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * <code>JcrRemotingServlet</code> is an extended version of the
+ * {@link org.apache.jackrabbit.server.remoting.davex.JcrRemotingServlet},
+ * creating repository instance through HippoRepositoryFactory.
+ * <P>
+ * This servlet can have 'repository-address' servlet init parameter to configure
+ * the repository address. The default repository address is 'vm://' if nothing is configured.
+ * </P>
+ */
 public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.davex.JcrRemotingServlet {
 
     private static final long serialVersionUID = 1L;

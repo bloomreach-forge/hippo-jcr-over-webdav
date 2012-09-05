@@ -281,7 +281,6 @@
   <modules>
     <module>servlet</module>
     <module>connector</module>
-    <module>war</module>
   </modules>
 
   <build>

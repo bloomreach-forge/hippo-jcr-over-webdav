@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008 Hippo.
+ *  Copyright 2012 Hippo.
  * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,12 +15,14 @@
  */
 package org.onehippo.forge.repository.connector.remoting.davex;
 
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.jcr.Credentials;
 import javax.jcr.LoginException;
 import javax.jcr.NoSuchWorkspaceException;
+import javax.jcr.Node;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -31,8 +33,14 @@ import javax.naming.Name;
 import javax.naming.RefAddr;
 import javax.naming.Reference;
 import javax.naming.spi.ObjectFactory;
+import javax.transaction.NotSupportedException;
+import javax.transaction.TransactionManager;
+import javax.transaction.UserTransaction;
 
 import org.hippoecm.repository.HippoRepository;
+import org.hippoecm.repository.SessionStateThresholdEnum;
+import org.hippoecm.repository.api.RepositoryMap;
+import org.hippoecm.repository.api.ValueMap;
 
 /**
  * JNDI Resource Factory to create JCR Repository by instantiating {@link DavExHippoRepository}
@@ -43,8 +51,8 @@ import org.hippoecm.repository.HippoRepository;
  * &lt;Context ...>
  *   ...
  *   &lt;Resource name="jcr/davexRepository" auth="Container"
- *             type="javax.jcr.Repository"
- *             factory="org.onehippo.forge.repository.connector.remoting.davex.DavExHippoRepositoryBasedJcrRepositoryFactory"
+ *             type="org.onehippo.forge.repository.connector.remoting.davex.HippoJcrRepository"
+ *             factory="org.onehippo.forge.repository.connector.remoting.davex.DavExHippoRepositoryBasedHippoJcrRepositoryFactory"
  *             repositoryAddress="http://localhost:8080/cms/server" />
  *   ...
  * &lt;/Context>
@@ -56,7 +64,7 @@ import org.hippoecm.repository.HippoRepository;
  * &lt;resource-ref>
  *   &lt;description>JCR Repository&lt;/description>
  *   &lt;res-ref-name>jcr/davexRepository&lt;/res-ref-name>
- *   &lt;res-type>javax.jcr.Repository&lt;/res-type>
+ *   &lt;res-type>org.onehippo.forge.repository.connector.remoting.davex.HippoJcrRepository&lt;/res-type>
  *   &lt;res-auth>Container&lt;/res-auth>
  * &lt;/resource-ref>
  * </pre></code>
@@ -84,7 +92,7 @@ import org.hippoecm.repository.HippoRepository;
  * %>
  * </pre></code>
  */
-public class DavExHippoRepositoryBasedJcrRepositoryFactory implements ObjectFactory {
+public class DavExHippoRepositoryBasedHippoJcrRepositoryFactory implements ObjectFactory {
     
     public Object getObjectInstance(Object obj, Name name, Context nameCtx, Hashtable<?, ?> environment) throws Exception {
         String repositoryAddress = null;
@@ -110,24 +118,41 @@ public class DavExHippoRepositoryBasedJcrRepositoryFactory implements ObjectFact
             throw new RuntimeException("Invalid repository address: " + repositoryAddress);
         }
 
-        return new LazyJcrRepositoryWrappingHippoRepository(repositoryAddress);
+        return new LazyHippoJcrRepository(repositoryAddress);
     }
 
     /**
      * JCR Repository implementation wrapping HippoRepository.
      */
-    private static class LazyJcrRepositoryWrappingHippoRepository implements Repository {
+    private static class LazyHippoJcrRepository implements HippoJcrRepository {
 
         private String location;
         private HippoRepository hippoRepository;
 
-        private LazyJcrRepositoryWrappingHippoRepository(String location) {
+        private LazyHippoJcrRepository(String location) {
             if (location == null || "".equals(location.trim())) {
                 throw new IllegalArgumentException("Invalid hippo repository location: " + location);
             }
 
             this.location = location;
         }
+
+        /*
+         * Lazily HippoRepository creating method
+         */
+        private HippoRepository getHippoRepository() {
+            if (hippoRepository == null) {
+                try {
+                    hippoRepository = DavExHippoRepository.create(location);
+                } catch (Exception e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+
+            return hippoRepository;
+        }
+
+        /* Implementing JCR Repository */
 
         public String getDescriptor(String key) {
             return getHippoRepository().getRepository().getDescriptor(key);
@@ -174,27 +199,46 @@ public class DavExHippoRepositoryBasedJcrRepositoryFactory implements ObjectFact
             return getHippoRepository().getRepository().isStandardDescriptor(key);
         }
 
-        HippoRepository getHippoRepository() {
-            if (hippoRepository == null) {
-                try {
-                    hippoRepository = DavExHippoRepository.create(location);
-                } catch (Exception e) {
-                    throw new IllegalStateException(e);
-                }
-            }
+        /* Implementing HippoRepository */
 
-            return hippoRepository;
+        public Session login(String username, char[] password) throws LoginException, RepositoryException {
+            return getHippoRepository().login(username, password);
         }
 
-        void closeHippoRepository() {
-            if (hippoRepository != null) {
-                final String location = hippoRepository.getLocation();
-                boolean isRemoteRepository = location != null && (location.startsWith("rmi:") || location.startsWith("http:") || location.startsWith("https:"));
+        public Session login(SimpleCredentials credentials) throws LoginException, RepositoryException {
+            return getHippoRepository().login(credentials);
+        }
 
-                if (isRemoteRepository) {
-                    hippoRepository.close();
-                }
-            }
+        public void close() {
+            getHippoRepository().close();
+        }
+
+        public UserTransaction getUserTransaction(Session session) throws RepositoryException, NotSupportedException {
+            return getHippoRepository().getUserTransaction(session);
+        }
+
+        public UserTransaction getUserTransaction(TransactionManager tm, Session session) throws NotSupportedException {
+            return getHippoRepository().getUserTransaction(tm, session);
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public Repository getRepository() {
+            return getHippoRepository().getRepository();
+        }
+
+        public RepositoryMap getRepositoryMap(Node node) throws RepositoryException {
+            return getHippoRepository().getRepositoryMap(node);
+        }
+
+        public ValueMap getValueMap(Node node) throws RepositoryException {
+            return getHippoRepository().getValueMap(node);
+        }
+
+        public boolean stateThresholdExceeded(Session session, EnumSet<SessionStateThresholdEnum> interests) {
+            return getHippoRepository().stateThresholdExceeded(session, interests);
         }
     }
 }

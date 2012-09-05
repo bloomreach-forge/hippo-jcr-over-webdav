@@ -1,7 +1,8 @@
 * text=auto !eol
 connector/pom.xml -text
 connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepository.java -text
-connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepositoryBasedJcrRepositoryFactory.java -text
+connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepositoryBasedHippoJcrRepositoryFactory.java -text
+connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/HippoJcrRepository.java -text
 /pom.xml -text
 servlet/pom.xml -text
 servlet/src/main/java/org/onehippo/forge/repository/server/remoting/davex/JcrRemotingServlet.java -text
@@ -55,5 +56,3 @@ src/site/resources/sh/styles/shThemeRDark.css -text
 src/site/site.xml -text
 src/site/xdoc/index.xml -text
 src/site/xdoc/release-notes.xml -text
-war/pom.xml -text
-war/src/main/webapp/WEB-INF/web.xml -text

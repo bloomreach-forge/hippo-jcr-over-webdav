@@ -29,6 +29,9 @@ import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryImpl;
 import org.hippoecm.repository.SessionStateThresholdEnum;
 
+/**
+ * HippoRepository Implementation connecting the remote repository via Jackrabbit DavEx protocol.
+ */
 public class DavExHippoRepository extends HippoRepositoryImpl {
 
     @SuppressWarnings("unchecked")
