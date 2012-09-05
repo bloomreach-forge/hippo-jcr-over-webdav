@@ -37,6 +37,14 @@
 
     <!-- SNIP -->
 
+    <repository>
+      <id>hipporepojcrdav-maven-repo</id>
+      <name>Hippo Repository JCR/WebDAV Support Maven 2 Repository</name>
+      <url>http://forge.onehippo.org/svn/hipporepojcrdav/maven2/</url>
+    </repository>
+
+    <!-- SNIP -->
+
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-jcr-server</artifactId>
