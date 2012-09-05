@@ -19,16 +19,11 @@
 -->
 <document>
   <properties>
-    <title>Hippo Repository JCR/WebDAV Support</title>
+    <title>Installation</title>
   </properties>
   <body>
-    <section name="Hippo Repository JCR/WebDAV Support">
+    <section name="Installation">
       <p>
-        This module supports JCR/WebDAV connections for Hippo Repository.
-        So, you can use JCR APIs against remote Hippo Repository via JCR over WebDAV connections by using this module.
-      </p>
-      <p>
-        <em>WARNING: However, this module does not support Hippo specific virtual node related APIs and workflow APIs.</em>
       </p>
     </section>
   </body>
