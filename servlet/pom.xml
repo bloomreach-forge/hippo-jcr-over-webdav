@@ -16,7 +16,7 @@
   <parent>
     <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
     <artifactId>hipporepojcrdav</artifactId>
-    <version>0.01.01-SNAPSHOT</version>
+    <version>0.01.01</version>
   </parent>
 
   <name>Hippo Repository JCR/WebDAV Servlet Support</name>
