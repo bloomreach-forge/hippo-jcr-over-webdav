@@ -3,6 +3,7 @@ connector/pom.xml -text
 connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepository.java -text
 connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/DavExHippoRepositoryBasedHippoJcrRepositoryFactory.java -text
 connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/HippoJcrRepository.java -text
+connector/src/main/java/org/onehippo/forge/repository/connector/remoting/davex/LazyHippoJcrRepository.java -text
 /pom.xml -text
 servlet/pom.xml -text
 servlet/src/main/java/org/onehippo/forge/repository/server/remoting/davex/JcrRemotingServlet.java -text
