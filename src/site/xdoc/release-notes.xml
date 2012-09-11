@@ -22,6 +22,9 @@
   </properties>
   <body>
     <section name="Release Notes">
+      <subsection name="0.01.01">
+        <p>Code Cleanup</p>
+      </subsection>
       <subsection name="0.01.00">
         <p>Initial Support</p>
       </subsection>
