@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2009-2011 Hippo
+    Copyright 2009-2013 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -16,30 +16,21 @@
 -->
 <project name="Hippo Repository JCR/WebDAV Support">
 
+  <skin>
+    <groupId>org.onehippo.forge.mavenskin</groupId>
+    <artifactId>forge-maven-skin</artifactId>
+    <version>1.01.00</version>
+  </skin>
+
   <publishDate format="d MMMM yyyy" />
 
-  <bannerLeft>
-    <name>Hippo Repository JCR/WebDAV Support</name>
-  </bannerLeft>
+  <custom>
+    <hippoSkin>
+      <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+    </hippoSkin>
+  </custom>
 
   <body>
-    <head>
-      <!-- SyntaxHighlighter Begins -->
-      <script type="text/javascript" src="sh/scripts/shCore.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushBash.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushDiff.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushJava.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushJScript.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushPlain.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushSql.js"></script>
-      <script type="text/javascript" src="sh/scripts/shBrushXml.js"></script>
-      <link type="text/css" rel="stylesheet" href="sh/styles/shCoreDefault.css" />
-      <!-- SyntaxHighlighter Ends -->
-      <!-- Automatic SyntaxHighlighter invocation script for <source/> elements Begins -->
-      <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
-      <script type="text/javascript" src="highlight-source-elements.js"></script>
-      <!-- Automatic SyntaxHighlighter invocation script for <source/> elements Ends -->
-    </head>
     <menu name="Main">
       <item name="Welcome" href="index.html"/>
       <item name="Installation" href="install.html"/>
