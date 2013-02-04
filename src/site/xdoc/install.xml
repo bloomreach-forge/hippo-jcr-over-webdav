@@ -3,7 +3,7 @@
   "-//Apache Software Foundation//DTD XDOC 1.0//EN"
   "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2009 Hippo
+    Copyright 2012-2013 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -25,46 +25,53 @@
     <section name="Installation">
       <subsection name="Add Dependencies in Repository Web Application">
         <p>
-          Add the following dependencies into your Hippo Repository Web Application (e.g., '/cms').
+          Add the following dependencies into your Hippo Repository Web Application (e.g. '/cms').
         </p>
-        <div class="brush: xml">
+        <p>
+          <strong>Note: </strong> insert the dependencies below the <code>org.onehippo.cms7:hippo-cms-dependencies</code>
+          to avoid <code>org.apache.jackrabbit:jackrabbit-jcr-server</code> pulling in
+          <code>commons-codec:commons-codec:jar:1.2</code> whilst the CMS needs version commons-codec 1.4.
+        </p>
+        <div>
           <source><![CDATA[
 
-    <!-- SNIP -->
+    <properties>
+      <!-- SNIP -->
 
-    <forge.hipporepojcrdav.version>0.01.00</forge.hipporepojcrdav.version>
-    <jackrabbit.version>2.2.12-h2</jackrabbit.version>
+      <forge.hipporepojcrdav.version>0.01.00</forge.hipporepojcrdav.version>
+      <jackrabbit.version>2.2.12-h2</jackrabbit.version>
+    <properties>
 
-    <!-- SNIP -->
+    <repositories>
+      <!-- SNIP -->
 
-    <repository>
-      <id>hipporepojcrdav-maven-repo</id>
-      <name>Hippo Repository JCR/WebDAV Support Maven 2 Repository</name>
-      <url>http://forge.onehippo.org/svn/hipporepojcrdav/maven2/</url>
-    </repository>
+      <repository>
+        <id>hipporepojcrdav-maven-repo</id>
+        <name>Hippo Repository JCR/WebDAV Support Maven 2 Repository</name>
+        <url>http://forge.onehippo.org/svn/hipporepojcrdav/maven2/</url>
+      </repository>
+    </repositories>
 
-    <!-- SNIP -->
+    <dependencies>
+      <!-- SNIP -->
 
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-jcr-server</artifactId>
-      <version>${jackrabbit.version}</version>
-    </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-jcr-server</artifactId>
+        <version>${jackrabbit.version}</version>
+      </dependency>
 
-    <dependency>
-      <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
-      <artifactId>hipporepojcrdav-servlet</artifactId>
-      <version>${forge.hipporepojcrdav.version}</version>
-    </dependency>
-
-    <!-- SNIP -->
-
-          ]]></source>
+      <dependency>
+        <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
+        <artifactId>hipporepojcrdav-servlet</artifactId>
+        <version>${forge.hipporepojcrdav.version}</version>
+      </dependency>
+    </dependencies>]]></source>
         </div>
       </subsection>
       <subsection name="Add Servlet in Repository Web Application">
         <p>
-          Add the following servlet configurations into your Hippo Repository Web Application (e.g., '/cms').
+          Add the following servlet configurations into your Hippo Repository Web Application (e.g. '/cms').
         </p>
         <div class="brush: xml">
           <source><![CDATA[
