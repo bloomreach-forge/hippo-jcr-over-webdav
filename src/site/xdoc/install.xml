@@ -40,7 +40,7 @@
 
       <forge.hipporepojcrdav.version>0.01.00</forge.hipporepojcrdav.version>
       <jackrabbit.version>2.2.12-h2</jackrabbit.version>
-    <properties>
+    </properties>
 
     <repositories>
       <!-- SNIP -->
@@ -66,7 +66,8 @@
         <artifactId>hipporepojcrdav-servlet</artifactId>
         <version>${forge.hipporepojcrdav.version}</version>
       </dependency>
-    </dependencies>]]></source>
+    </dependencies>
+    ]]></source>
         </div>
       </subsection>
       <subsection name="Add Servlet in Repository Web Application">
