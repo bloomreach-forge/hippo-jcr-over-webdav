@@ -16,18 +16,15 @@
 package org.onehippo.forge.repository.connector.remoting.davex;
 
 import java.net.MalformedURLException;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 
 import org.apache.jackrabbit.jcr2dav.Jcr2davRepositoryFactory;
 import org.apache.jackrabbit.spi2davex.Spi2davexRepositoryServiceFactory;
 import org.hippoecm.repository.HippoRepository;
 import org.hippoecm.repository.HippoRepositoryImpl;
-import org.hippoecm.repository.SessionStateThresholdEnum;
 
 /**
  * HippoRepository Implementation connecting the remote repository via Jackrabbit DavEx protocol.
@@ -44,9 +41,5 @@ public class DavExHippoRepository extends HippoRepositoryImpl {
 
     public static HippoRepository create(String location) throws MalformedURLException, RepositoryException {
         return new DavExHippoRepository(location);
-    }
-
-    public boolean stateThresholdExceeded(Session session, EnumSet<SessionStateThresholdEnum> interests) {
-        return false; // FIXME: unimplemented
     }
 }

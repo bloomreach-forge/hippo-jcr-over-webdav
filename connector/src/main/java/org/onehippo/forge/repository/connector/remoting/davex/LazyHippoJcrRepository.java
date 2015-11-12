@@ -15,8 +15,6 @@
  */
 package org.onehippo.forge.repository.connector.remoting.davex;
 
-import java.util.EnumSet;
-
 import javax.jcr.Credentials;
 import javax.jcr.LoginException;
 import javax.jcr.NoSuchWorkspaceException;
@@ -31,9 +29,9 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 import org.hippoecm.repository.HippoRepository;
-import org.hippoecm.repository.SessionStateThresholdEnum;
+import org.hippoecm.repository.api.ReferenceWorkspace;
 import org.hippoecm.repository.api.RepositoryMap;
-import org.hippoecm.repository.api.ValueMap;
+import org.onehippo.repository.bootstrap.InitializationProcessor;
 
 /**
  * JCR Repository implementation wrapping HippoRepository.
@@ -68,18 +66,22 @@ public class LazyHippoJcrRepository implements HippoJcrRepository {
 
     /* Implementing JCR Repository */
 
+    @Override
     public String getDescriptor(String key) {
         return getHippoRepository().getRepository().getDescriptor(key);
     }
 
+    @Override
     public String[] getDescriptorKeys() {
         return getHippoRepository().getRepository().getDescriptorKeys();
     }
 
+    @Override
     public Session login() throws LoginException, RepositoryException {
         return getHippoRepository().login();
     }
 
+    @Override
     public Session login(Credentials credentials) throws LoginException, RepositoryException {
         if (!(credentials instanceof SimpleCredentials)) {
             throw new IllegalArgumentException("Only javax.jcr.SimpleCredentials is supported.");
@@ -88,70 +90,86 @@ public class LazyHippoJcrRepository implements HippoJcrRepository {
         return getHippoRepository().login((SimpleCredentials) credentials);
     }
 
+    @Override
     public Session login(String workspaceName) throws LoginException, NoSuchWorkspaceException, RepositoryException {
         return login();
     }
 
+    @Override
     public Session login(Credentials credentials, String workspaceName) throws LoginException,
             NoSuchWorkspaceException, RepositoryException {
         return login(credentials);
     }
 
+    @Override
     public Value getDescriptorValue(String key) {
         return getHippoRepository().getRepository().getDescriptorValue(key);
     }
 
+    @Override
     public Value[] getDescriptorValues(String key) {
         return getHippoRepository().getRepository().getDescriptorValues(key);
     }
 
+    @Override
     public boolean isSingleValueDescriptor(String key) {
         return getHippoRepository().getRepository().isSingleValueDescriptor(key);
     }
 
+    @Override
     public boolean isStandardDescriptor(String key) {
         return getHippoRepository().getRepository().isStandardDescriptor(key);
     }
 
     /* Implementing HippoRepository */
 
+    @Override
     public Session login(String username, char[] password) throws LoginException, RepositoryException {
         return getHippoRepository().login(username, password);
     }
 
+    @Override
     public Session login(SimpleCredentials credentials) throws LoginException, RepositoryException {
         return getHippoRepository().login(credentials);
     }
 
+    @Override
     public void close() {
         getHippoRepository().close();
     }
 
+    @Override
     public UserTransaction getUserTransaction(Session session) throws RepositoryException, NotSupportedException {
         return getHippoRepository().getUserTransaction(session);
     }
 
+    @Override
     public UserTransaction getUserTransaction(TransactionManager tm, Session session) throws NotSupportedException {
         return getHippoRepository().getUserTransaction(tm, session);
     }
 
+    @Override
     public String getLocation() {
         return location;
     }
 
+    @Override
     public Repository getRepository() {
         return getHippoRepository().getRepository();
     }
 
+    @Override
     public RepositoryMap getRepositoryMap(Node node) throws RepositoryException {
         return getHippoRepository().getRepositoryMap(node);
     }
 
-    public ValueMap getValueMap(Node node) throws RepositoryException {
-        return getHippoRepository().getValueMap(node);
+    @Override
+    public InitializationProcessor getInitializationProcessor() {
+        return getHippoRepository().getInitializationProcessor();
     }
 
-    public boolean stateThresholdExceeded(Session session, EnumSet<SessionStateThresholdEnum> interests) {
-        return getHippoRepository().stateThresholdExceeded(session, interests);
+    @Override
+    public ReferenceWorkspace getOrCreateReferenceWorkspace() throws RepositoryException {
+        return getHippoRepository().getOrCreateReferenceWorkspace();
     }
 }

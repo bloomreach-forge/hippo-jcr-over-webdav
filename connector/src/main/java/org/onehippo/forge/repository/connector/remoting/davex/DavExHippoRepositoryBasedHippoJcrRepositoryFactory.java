@@ -29,31 +29,31 @@ import javax.naming.spi.ObjectFactory;
  * 
  * JNDI Resource can be configured in the application context descriptor like the following for Tomcat:
  * 
- * <code><pre>
- * &lt;Context ...>
+ * <pre>
+ * &lt;Context ...&gt;
  *   ...
  *   &lt;Resource name="jcr/davexRepository" auth="Container"
  *             type="org.onehippo.forge.repository.connector.remoting.davex.HippoJcrRepository"
  *             factory="org.onehippo.forge.repository.connector.remoting.davex.DavExHippoRepositoryBasedHippoJcrRepositoryFactory"
- *             repositoryAddress="http://localhost:8080/cms/server" />
+ *             repositoryAddress="http://localhost:8080/cms/server" /&gt;
  *   ...
- * &lt;/Context>
- * </pre></code>
- * <BR/>
+ * &lt;/Context&gt;
+ * </pre>
+ * <BR>
  * In addition, you should modify the web application deployment descriptor (/WEB-INF/web.xml) to
  * declare the JNDI name under which you will look up preconfigured repository in the above like the following:
- * <code><pre>
- * &lt;resource-ref>
- *   &lt;description>JCR Repository&lt;/description>
- *   &lt;res-ref-name>jcr/davexRepository&lt;/res-ref-name>
- *   &lt;res-type>org.onehippo.forge.repository.connector.remoting.davex.HippoJcrRepository&lt;/res-type>
- *   &lt;res-auth>Container&lt;/res-auth>
- * &lt;/resource-ref>
- * </pre></code>
- * <BR/>
+ * <pre>
+ * &lt;resource-ref&gt;
+ *   &lt;description&gt;JCR Repository&lt;/description&gt;
+ *   &lt;res-ref-name&gt;jcr/davexRepository&lt;/res-ref-name&gt;
+ *   &lt;res-type&gt;org.onehippo.forge.repository.connector.remoting.davex.HippoJcrRepository&lt;/res-type&gt;
+ *   &lt;res-auth&gt;Container&lt;/res-auth&gt;
+ * &lt;/resource-ref&gt;
+ * </pre>
+ * <BR>
  * Finally, you can write codes in a JSP page to test it like the following example:
- * <code><pre>
- * &lt;%@ page language="java" import="javax.jcr.*, javax.naming.*" %>
+ * <pre>
+ * &lt;%@ page language="java" import="javax.jcr.*, javax.naming.*" %&gt;
  * &lt;%
  * Context initCtx = new InitialContext();
  * Context envCtx = (Context) initCtx.lookup("java:comp/env");
@@ -61,18 +61,18 @@ import javax.naming.spi.ObjectFactory;
  * Session jcrSession = repository.login();
  * // do something...
  * jcrSession.logout();
- * %>
- * </pre></code>
+ * %&gt;
+ * </pre>
  * <P>Also, you can get HippoRepository instance through HippoRepositoryFactory if you want:</P>
- * <code><pre>
- * &lt;%@ page language="java" import="javax.jcr.*, javax.naming.*, org.hippoecm.repository.*" %>
+ * <pre>
+ * &lt;%@ page language="java" import="javax.jcr.*, javax.naming.*, org.hippoecm.repository.*" %&gt;
  * &lt;%
  * HippoRepository hippoRepository = HippoRepositoryFactory("java:comp/env/jcr/davexRepository");
  * Session jcrSession = repository.login(new SimpleCredentials("siteuser", "siteuser".toCharArray());
  * // do something...
  * jcrSession.logout();
- * %>
- * </pre></code>
+ * %&gt;
+ * </pre>
  */
 public class DavExHippoRepositoryBasedHippoJcrRepositoryFactory implements ObjectFactory {
     

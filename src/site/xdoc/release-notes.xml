@@ -21,7 +21,26 @@
     <subtitle>Release Notes</subtitle>
   </properties>
   <body>
+    <section name="Compatibility">
+      <table>
+        <tr>
+          <th>Plugin version</th>
+          <th>Hippo CMS Release version</th>
+        </tr>
+        <tr>
+          <td>1.1.x</td>
+          <td>10.0, 10.1</td>
+        </tr>
+        <tr>
+          <td>0.01.xx</td>
+          <td>7.8.x, 7.9.x</td>
+        </tr>
+      </table>
+    </section>
     <section name="Release Notes">
+      <subsection name="1.1.0">
+        <p>Coming soon... Compatible with Hippo CMS 10</p>
+      </subsection>
       <subsection name="0.01.01">
         <p>Code Cleanup</p>
       </subsection>
