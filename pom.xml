@@ -17,7 +17,7 @@
   <description>Hippo Repository JCR/WebDAV Support</description>
   <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
   <artifactId>hipporepojcrdav</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.1.0</version>
   <packaging>pom</packaging>
   <url>http://hipporepojcrdav.forge.onehippo.org/</url>
 
@@ -80,9 +80,9 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/trunk</connection>
-    <developerConnection>scm:svn:https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/trunk</developerConnection>
-    <url>https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/trunk</url>
+    <connection>scm:svn:https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/tags/hipporepojcrdav-1.1.0</connection>
+    <developerConnection>scm:svn:https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/tags/hipporepojcrdav-1.1.0</developerConnection>
+    <url>https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav/tags/hipporepojcrdav-1.1.0</url>
   </scm>
 
   <issueManagement>
