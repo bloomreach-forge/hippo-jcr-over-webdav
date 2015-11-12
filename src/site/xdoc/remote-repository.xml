@@ -33,11 +33,6 @@
 
     <!-- SNIP -->
 
-    <forge.hipporepojcrdav.version>0.01.00</forge.hipporepojcrdav.version>
-    <jackrabbit.version>2.2.12-h2</jackrabbit.version>
-
-    <!-- SNIP -->
-
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-jcr2dav</artifactId>
