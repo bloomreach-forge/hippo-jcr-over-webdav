@@ -19,14 +19,18 @@
   <skin>
     <groupId>org.onehippo.forge.mavenskin</groupId>
     <artifactId>forge-maven-skin</artifactId>
-    <version>1.01.00</version>
+    <version>1.03.00</version>
   </skin>
-
-  <publishDate format="d MMMM yyyy" />
 
   <custom>
     <hippoSkin>
-      <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+
+      <!-- Render a google search box (no box when absent) -->
+      <googleSearch>
+        <!-- Optional setting on where to do the search (it will search on the current site if the sitesearch tag is absent) -->
+        <sitesearch>http://hipporepojcrdav.forge.onehippo.org/</sitesearch>
+      </googleSearch>
+
     </hippoSkin>
   </custom>
 
