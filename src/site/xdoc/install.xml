@@ -27,7 +27,7 @@
         <p>
           Add the following dependencies into your Hippo Repository Web Application (e.g. '/cms').
         </p>
-        <div>
+        <div class="brush: xml">
           <source><![CDATA[
     <repositories>
 
