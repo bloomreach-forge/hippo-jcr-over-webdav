@@ -53,7 +53,14 @@ $ mvn -P cargo.run
         ]]></source>
         </div>
         <p>
-          Visit http://localhost:8080/site/ and try 'JCR/WebDAV Example 1', 'JCR/WebDAV Example 2' and 'JCR/WebDAV Example 3'.
+          Visit http://localhost:8080/site/ and try examples:
+        </p>
+        <ul>
+          <li><a href="http://localhost:8080/site/examples/about1.jsp" target="_blank">JCR over WebDAV Example 1</a></li>
+          <li><a href="http://localhost:8080/site/examples/about2.jsp" target="_blank">JCR over WebDAV Example 2</a></li>
+          <li><a href="http://localhost:8080/site/examples/about3.jsp" target="_blank">JCR over WebDAV Example 3</a></li>
+        </ul>
+        <p>
           Each source file of those can be found in '/site/examples/about1.jsp', '/site/examples/about2.jsp', and '/site/examples/about3.jsp'.
         </p>
       </subsection>
