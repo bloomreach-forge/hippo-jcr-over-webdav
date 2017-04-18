@@ -34,41 +34,27 @@
       </p>
     </section>
     <section name="Demo Application">
-      <subsection name="Demo Application with Hippo CMS 10">
-        <p>You can check out, build and run demo application, which contains all the examples explained in this site documentation.</p>
-        <p>Here are example commands to check out, build and run demo application:</p>
+      <subsection name="Check out demo application">
+        <p>
+          Fork me on GitHub: <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav" target="_blank">https://github.com/onehippo-forge/hippo-jcr-over-webdav</a>.
+        </p>
+        <p>
+          Build the project using Maven:
+        </p>
         <div class="brush: bash">
-          <source><![CDATA[
-$ svn checkout https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav-demo/trunk hipporepojcrdav-demo-TRUNK
-$ cd hipporepojcrdav-demo-TRUNK
-$ mvn clean verify
+        <source>$ mvn install</source>
+        </div>
+        <p>And, build and run the demo in the <code>demo</code> subfolder.</p>
+        <div class="brush: bash">
+        <source><![CDATA[
+$ cd demo
+$ mvn clean package
 $ mvn -P cargo.run
-          ]]></source>
+        ]]></source>
         </div>
         <p>
           Visit http://localhost:8080/site/ and try 'JCR/WebDAV Example 1', 'JCR/WebDAV Example 2' and 'JCR/WebDAV Example 3'.
           Each source file of those can be found in '/site/examples/about1.jsp', '/site/examples/about2.jsp', and '/site/examples/about3.jsp'.
-        </p>
-      </subsection>
-      <subsection name="Demo Application with Hippo CMS 7.8 or 7.9">
-        <p>You can check out, build and run demo application, which contains all the examples explained in this site documentation.</p>
-        <p>Here are example commands to check out, build and run demo application:</p>
-        <div class="brush: bash">
-          <source><![CDATA[
-$ svn checkout https://forge.onehippo.org/svn/hipporepojcrdav/hipporepojcrdav-demo/branches/hipporepojcrdav-demo-0.01.xx
-$ cd hipporepojcrdav-demo-0.01.xx
-$ mvn clean verify
-$ mvn -P cargo.run
-          ]]></source>
-        </div>
-        <p>
-          Also, visit 
-          <a href="http://localhost:8080/site/examples/about1.jsp" target="_blank">JCR/WebDAV Example 1</a>,
-          <a href="http://localhost:8080/site/examples/about2.jsp" target="_blank">JCR/WebDAV Example 2</a>,
-          and
-          <a href="http://localhost:8080/site/examples/about3.jsp" target="_blank">JCR/WebDAV Example 3</a>,
-          (and each example source in JSP)
-          for how to access JCR/WebDAV repository.
         </p>
       </subsection>
     </section>
