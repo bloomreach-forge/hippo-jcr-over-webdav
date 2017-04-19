@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/onehippo-forge/hippo-jcr-over-webdav.svg?branch=develop)](https://travis-ci.org/onehippo-forge/hippo-jcr-over-webdav)
 
 # Hippo Repository JCR over WebDAV Support
 
