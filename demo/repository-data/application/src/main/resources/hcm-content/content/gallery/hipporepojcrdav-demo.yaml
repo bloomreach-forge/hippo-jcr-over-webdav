@@ -1,0 +1,7 @@
+/content/gallery/hipporepojcrdavdemo:
+  jcr:primaryType: hippogallery:stdImageGallery
+  jcr:mixinTypes: ['hippo:named', 'mix:referenceable']
+  jcr:uuid: 35d345d7-9ea3-4cf0-b78e-93d2de15b901
+  hippo:name: Hippo Repository JCR/WebDAV Support Demo
+  hippostd:foldertype: [new-image-folder]
+  hippostd:gallerytype: ['hippogallery:imageset']

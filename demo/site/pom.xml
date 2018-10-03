@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
     <artifactId>hipporepojcrdav-demo</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <artifactId>hipporepojcrdav-demo-site</artifactId>
   <packaging>war</packaging>
@@ -16,21 +17,15 @@
     <dependency>
       <groupId>org.apache.jackrabbit</groupId>
       <artifactId>jackrabbit-jcr2dav</artifactId>
+      <version>${jackrabbit.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
       <artifactId>hipporepojcrdav-connector</artifactId>
+      <version>${forge.hipporepojcrdav.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-essentials-plugin-sdk-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.onehippo.cms7</groupId>
-      <artifactId>hippo-essentials-components-hst</artifactId>
-    </dependency>
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
@@ -76,10 +71,6 @@
       <artifactId>freemarker</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.onehippo.cms7.hst.components</groupId>
-      <artifactId>hst-jaxrs</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.onehippo.cms7.hst.client-modules</groupId>
       <artifactId>hst-cms-rest</artifactId>
     </dependency>
@@ -94,6 +85,14 @@
     <dependency>
       <groupId>org.onehippo.cms7</groupId>
       <artifactId>hippo-plugin-selections-hst-client</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-essentials-plugin-sdk-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.onehippo.cms7</groupId>
+      <artifactId>hippo-essentials-components-hst</artifactId>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -132,22 +131,6 @@
           <container>
             <type>remote</type>
           </container>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>com.googlecode.mavenfilesync</groupId>
-        <artifactId>maven-filesync-plugin</artifactId>
-        <configuration>
-          <mappings>
-            <mapping>
-              <sourceFolder>src/main/resources</sourceFolder>
-              <destinationFolder>@../target/tomcat${cargo.tomcat.major.version}x/webapps/site/WEB-INF/classes</destinationFolder>
-            </mapping>
-            <mapping>
-              <sourceFolder>src/main/webapp</sourceFolder>
-              <destinationFolder>@../target/tomcat${cargo.tomcat.major.version}x/webapps/site</destinationFolder>
-            </mapping>
-          </mappings>
         </configuration>
       </plugin>
     </plugins>
