@@ -1,0 +1,4 @@
+definitions:
+  config:
+    /hst:hst/hst:configurations/hipporepojcrdavdemo/hst:abstractpages:
+      jcr:primaryType: hst:pages

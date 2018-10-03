@@ -3,7 +3,7 @@
   "-//Apache Software Foundation//DTD XDOC 1.0//EN"
   "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2012-2013 Hippo
+    Copyright 2012-2018 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
     <section name="Installation">
       <subsection name="Add Dependencies in Repository Web Application">
         <p>
-          Add the following dependencies into your Hippo Repository Web Application (e.g. '/cms').
+          Add the following Hippo Forge repository in the root pom.xml.
         </p>
         <div class="brush: xml">
           <source><![CDATA[
@@ -43,6 +43,14 @@
       <!-- SNIP -->
 
     </repositories>
+    ]]></source>
+        </div>
+
+        <p>
+          Add the following dependencies into your Hippo Repository Web Application (e.g. '/cms').
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
 
     <dependencies>
 
@@ -51,11 +59,15 @@
       <dependency>
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-jcr-server</artifactId>
-        <version>${jackrabbit.version}</version>
+        <version>${hippo.jackrabbit.version}</version>
         <exclusions>
           <exclusion>
             <groupId>org.apache.jackrabbit</groupId>
             <artifactId>jackrabbit-spi-commons</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
           </exclusion>
         </exclusions>
       </dependency>

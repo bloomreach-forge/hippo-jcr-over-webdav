@@ -1,0 +1,9 @@
+/content/documents/hipporepojcrdavdemo:
+  .meta:order-before: administration
+  jcr:primaryType: hippostd:folder
+  jcr:mixinTypes: ['hippo:named', 'hippotranslation:translated', 'mix:referenceable']
+  jcr:uuid: 69d0056e-20a2-4cb1-9ca4-3677af0f982c
+  hippo:name: Hippo Repository JCR/WebDAV Support Demo
+  hippostd:foldertype: [new-translated-folder, new-document]
+  hippotranslation:id: 996bcac5-86cf-49b5-a7a3-16a74863e814
+  hippotranslation:locale: en

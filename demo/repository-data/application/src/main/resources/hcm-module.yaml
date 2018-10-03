@@ -1,0 +1,6 @@
+group: 
+  name: hipporepojcrdav-demo
+  after: hippo-cms
+project: hipporepojcrdav-demo
+module:
+  name: hipporepojcrdav-demo-repository-data-application
