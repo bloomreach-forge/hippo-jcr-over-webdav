@@ -38,6 +38,9 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.1.1">
+        <p>Upgrade demo based on Hippo CMS 12</p>
+      </subsection>
       <subsection name="1.1.0">
         <p>Compatible with Hippo CMS 10</p>
       </subsection>
