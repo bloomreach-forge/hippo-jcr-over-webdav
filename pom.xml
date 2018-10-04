@@ -17,7 +17,7 @@
   <description>Hippo Repository JCR/WebDAV Support</description>
   <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
   <artifactId>hipporepojcrdav</artifactId>
-  <version>1.1.3-SNAPSHOT</version>
+  <version>1.1.3</version>
   <packaging>pom</packaging>
   <url>https://onehippo-forge.github.io/hippo-jcr-over-webdav/</url>
 
