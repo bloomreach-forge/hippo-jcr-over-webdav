@@ -31,14 +31,16 @@ import org.hippoecm.repository.HippoRepository;
  */
 public class JcrHippoRepositoryWrapper implements Repository {
 
-    private HippoRepository hippoRepository;
+    private final HippoRepository hippoRepository;
+    private final boolean allowAnonymousAccess;
 
-    public JcrHippoRepositoryWrapper(HippoRepository hippoRepository) {
+    public JcrHippoRepositoryWrapper(final HippoRepository hippoRepository, final boolean allowAnonymousAccess) {
         if (hippoRepository == null) {
             throw new IllegalArgumentException("HippoRepository cannot be null!");
         }
 
         this.hippoRepository = hippoRepository;
+        this.allowAnonymousAccess = allowAnonymousAccess;
     }
 
     public String getDescriptor(String key) {
@@ -50,6 +52,10 @@ public class JcrHippoRepositoryWrapper implements Repository {
     }
 
     public Session login() throws LoginException, RepositoryException {
+        if (!allowAnonymousAccess) {
+            throw new LoginException("Anonymous access disallowed.");
+        }
+
         return hippoRepository.login();
     }
 

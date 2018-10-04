@@ -65,6 +65,10 @@
       <param-value>vm://</param-value>
     </init-param>
     <init-param>
+      <param-name>allowAnonymousAccess</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
       <param-name>missing-auth-mapping</param-name>
       <param-value></param-value>
     </init-param>

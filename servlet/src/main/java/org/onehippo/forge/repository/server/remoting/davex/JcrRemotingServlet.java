@@ -41,8 +41,13 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
 
     public static final String REPOSITORY_ADDRESS_PARAM = "repository-address";
 
+    public static final String ALLOW_ANONYMOUS_ACCESS_PARAM = "allowAnonymousAccess";
+
     private String repositoryAddress = "vm://";
+
     private volatile JcrHippoRepositoryWrapper repository;
+
+    private boolean allowAnonymousAccess;
 
     @Override
     public void init() throws ServletException {
@@ -52,6 +57,12 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
 
         if (param != null && !"".equals(param.trim())) {
             repositoryAddress = param.trim();
+        }
+
+        param = getInitParameter(ALLOW_ANONYMOUS_ACCESS_PARAM);
+
+        if (param != null && !"".equals(param.trim())) {
+            allowAnonymousAccess = Boolean.parseBoolean(param);
         }
     }
 
@@ -74,7 +85,8 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
 
                 if (repo == null) {
                     try {
-                        repo = new JcrHippoRepositoryWrapper(HippoRepositoryFactory.getHippoRepository(repositoryAddress));
+                        repo = new JcrHippoRepositoryWrapper(
+                                HippoRepositoryFactory.getHippoRepository(repositoryAddress), allowAnonymousAccess);
                         repository = repo;
                     } catch (RepositoryException e) {
                         log.error("Repository is not found.", e);

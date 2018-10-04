@@ -17,6 +17,7 @@ package org.onehippo.forge.repository.server.webdav;
 
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
+import javax.servlet.ServletException;
 
 import org.hippoecm.repository.HippoRepositoryFactory;
 import org.onehippo.forge.repository.server.JcrHippoRepositoryWrapper;
@@ -40,9 +41,24 @@ public class SimpleWebdavServlet extends org.apache.jackrabbit.webdav.simple.Sim
 
     public static final String REPOSITORY_ADDRESS_PARAM = "repository-address";
 
+    public static final String ALLOW_ANONYMOUS_ACCESS_PARAM = "allowAnonymousAccess";
+
     private String repositoryAddress = "vm://";
 
     private volatile JcrHippoRepositoryWrapper repository;
+
+    private boolean allowAnonymousAccess;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+
+        String param = getInitParameter(ALLOW_ANONYMOUS_ACCESS_PARAM);
+
+        if (param != null && !"".equals(param.trim())) {
+            allowAnonymousAccess = Boolean.parseBoolean(param);
+        }
+    }
 
     @Override
     public Repository getRepository() {
@@ -54,7 +70,8 @@ public class SimpleWebdavServlet extends org.apache.jackrabbit.webdav.simple.Sim
 
                 if (repo == null) {
                     try {
-                        repo = new JcrHippoRepositoryWrapper(HippoRepositoryFactory.getHippoRepository(repositoryAddress));
+                        repo = new JcrHippoRepositoryWrapper(
+                                HippoRepositoryFactory.getHippoRepository(repositoryAddress), allowAnonymousAccess);
                         repository = repo;
                     } catch (RepositoryException e) {
                         log.error("Repository is not found.", e);
