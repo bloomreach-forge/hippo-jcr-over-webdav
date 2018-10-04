@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.onehippo.forge.hipporepojcrdav</groupId>
     <artifactId>hipporepojcrdav-demo</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.2</version>
   </parent>
 
   <name>Hippo Repository JCR/WebDAV Support Demo Repository Data</name>
