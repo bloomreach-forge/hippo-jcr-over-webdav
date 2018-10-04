@@ -208,6 +208,9 @@
 
   <!--
     WebDAV support (DAV 1,2 and DeltaV) to your jackrabbit repository.
+
+    NOTE: Find example configuration for resource-config init parameter below
+    from https://svn.apache.org/repos/asf/jackrabbit/trunk/jackrabbit-webapp/src/main/webapp/WEB-INF/config.xml.
   -->
   <servlet>
     <servlet-name>SimpleWebdavServlet</servlet-name>
@@ -219,6 +222,10 @@
     <init-param>
       <param-name>missing-auth-mapping</param-name>
       <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>resource-config</param-name>
+      <param-value>/WEB-INF/webdav-config.xml</param-value>
     </init-param>
     <init-param>
       <param-name>authenticate-header</param-name>
