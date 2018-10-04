@@ -206,6 +206,35 @@
     <load-on-startup>6</load-on-startup>
   </servlet>
 
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) to your jackrabbit repository.
+  -->
+  <servlet>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <servlet-class>org.onehippo.forge.repository.server.webdav.SimpleWebdavServlet</servlet-class>
+    <init-param>
+      <param-name>repository-address</param-name>
+      <param-value>vm://</param-value>
+    </init-param>
+    <init-param>
+      <param-name>missing-auth-mapping</param-name>
+      <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>authenticate-header</param-name>
+      <param-value>Basic realm="Hippo Repository WebDAV Access Support"</param-value>
+    </init-param>
+    <init-param>
+      <param-name>createAbsoluteURI</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>resource-path-prefix</param-name>
+      <param-value>/webdav</param-value>
+    </init-param>
+    <load-on-startup>7</load-on-startup>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>LoggingServlet</servlet-name>
     <url-pattern>/logging/*</url-pattern>
@@ -247,6 +276,14 @@
   <servlet-mapping>
     <servlet-name>JCRWebdavServer</servlet-name>
     <url-pattern>/server/*</url-pattern>
+  </servlet-mapping>
+
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) Servlet Mapping:
+  -->
+  <servlet-mapping>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <url-pattern>/webdav/*</url-pattern>
   </servlet-mapping>
 
   <!-- Timeout in minutes -->
