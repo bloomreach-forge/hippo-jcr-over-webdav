@@ -3,7 +3,7 @@
   "-//Apache Software Foundation//DTD XDOC 1.0//EN"
   "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2009 Hippo
+    Copyright 2009-2018 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -24,12 +24,16 @@
   <body>
     <section name="Hippo Repository JCR/WebDAV Support">
       <p>
-        This module supports JCR/WebDAV connections for Hippo Repository.
-        So, you can use JCR APIs against remote Hippo Repository via JCR over WebDAV connections by using this module.
+        Apache Jackrabbit support <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>.
+      </p>
+      <p>
+        This module supports JCR/WebDAV connections for Hippo Repository by extending the default
+        <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#JCR_Webdav_Server">JCR Webdav Server</a>.
+        So, you can use JCR APIs against a remote Hippo Repository via JCR over WebDAV connections by using this module.
       </p>
       <p>
         <em>
-          <strong>WARNING:</strong> This module support pure JCR API only. It DOES NOT SUPPORT Hippo specific virtual node related APIs and workflow APIs.
+          <strong>WARNING:</strong> This module support pure JCR API only. It DOES NOT SUPPORT Hippo specific workflow APIs.
         </em>
       </p>
     </section>

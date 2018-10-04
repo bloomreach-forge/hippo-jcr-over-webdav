@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 Hippo.
+ * Copyright 2018 Hippo.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onehippo.forge.repository.server.remoting.davex;
+package org.onehippo.forge.repository.server.webdav;
 
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
-import javax.servlet.ServletException;
 
 import org.hippoecm.repository.HippoRepositoryFactory;
 import org.onehippo.forge.repository.server.JcrHippoRepositoryWrapper;
@@ -26,46 +25,27 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <code>JcrRemotingServlet</code> is an extended version of the
- * {@link org.apache.jackrabbit.server.remoting.davex.JcrRemotingServlet},
+ * {@link org.apache.jackrabbit.webdav.simple.SimpleWebdavServlet},
  * creating repository instance through HippoRepositoryFactory.
  * <P>
  * This servlet can have 'repository-address' servlet init parameter to configure
  * the repository address. The default repository address is 'vm://' if nothing is configured.
  * </P>
  */
-public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.davex.JcrRemotingServlet {
+public class SimpleWebdavServlet extends org.apache.jackrabbit.webdav.simple.SimpleWebdavServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger log = LoggerFactory.getLogger(JcrRemotingServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(SimpleWebdavServlet.class);
 
     public static final String REPOSITORY_ADDRESS_PARAM = "repository-address";
 
     private String repositoryAddress = "vm://";
+
     private volatile JcrHippoRepositoryWrapper repository;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-
-        String param = getInitParameter(REPOSITORY_ADDRESS_PARAM);
-
-        if (param != null && !"".equals(param.trim())) {
-            repositoryAddress = param.trim();
-        }
-    }
-
-    @Override
-    public void destroy() {
-        if (repository != null) {
-            repository.closeHippoRepository();
-        }
-
-        super.destroy();
-    }
-
-    @Override
-    protected Repository getRepository() {
+    public Repository getRepository() {
         JcrHippoRepositoryWrapper repo = repository;
 
         if (repo == null) {
@@ -85,4 +65,5 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
 
         return repo;
     }
+
 }

@@ -38,6 +38,10 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.1.2">
+        <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-205'>HIPFORGE-205</a>] -         [Repository WebDAV Support] Support Jackrabbit SimpleWebdavServlet
+        </li>
+      </subsection>
       <subsection name="1.1.1">
         <p>Upgrade demo based on Hippo CMS 12</p>
       </subsection>

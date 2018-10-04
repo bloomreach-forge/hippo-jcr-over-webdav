@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2009-2018 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Simple WebDAV Support</title>
+  </properties>
+  <body>
+
+    <section name="Installation">
+      <p>
+        Apache Jackrabbit support <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#Simple_Webdav_Server">Simple Webdav Server</a> additionally.
+      </p>
+      <p>
+        This module supports a simple WebDAV service for Hippo Repository by extending the default
+        <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#Simple_Webdav_Server">Simple Webdav Server</a>.
+        So, you can use a WebDAV client against a remote Hippo Repository by using this module.
+      </p>
+    </section>
+
+    <section name="Installation">
+
+      <subsection name="Add Dependencies in Repository Web Application">
+        <p>
+          Add all the dependencies instructed in the <a href="install.html">Installation</a> page
+          into your Hippo Repository Web Application (e.g. '/cms').
+        </p>
+      </subsection>
+      <subsection name="Add Servlet in Repository Web Application">
+        <p>
+          Add the following servlet configurations into your Hippo Repository Web Application (e.g. '/cms').
+        </p>
+        <div class="brush: xml">
+          <source><![CDATA[
+
+  <!-- SNIP -->
+
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) to your jackrabbit repository.
+
+    NOTE: Find example configuration for resource-config init parameter below
+    from https://svn.apache.org/repos/asf/jackrabbit/trunk/jackrabbit-webapp/src/main/webapp/WEB-INF/config.xml.
+  -->
+  <servlet>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <servlet-class>org.onehippo.forge.repository.server.webdav.SimpleWebdavServlet</servlet-class>
+    <init-param>
+      <param-name>repository-address</param-name>
+      <param-value>vm://</param-value>
+    </init-param>
+    <init-param>
+      <param-name>missing-auth-mapping</param-name>
+      <param-value></param-value>
+    </init-param>
+    <init-param>
+      <param-name>resource-config</param-name>
+      <param-value>/WEB-INF/webdav-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>authenticate-header</param-name>
+      <param-value>Basic realm="Hippo Repository WebDAV Access Support"</param-value>
+    </init-param>
+    <init-param>
+      <param-name>createAbsoluteURI</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <init-param>
+      <param-name>resource-path-prefix</param-name>
+      <param-value>/webdav</param-value>
+    </init-param>
+    <load-on-startup>7</load-on-startup>
+  </servlet>
+
+  <!-- SNIP -->
+
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) Servlet Mapping:
+  -->
+  <servlet-mapping>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <url-pattern>/webdav/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- SNIP -->
+
+          ]]></source>
+        </div>
+      </subsection>
+      <subsection name="How to Know It's Working?">
+        <p>
+          You can test if it is working by running command lines like the following example.
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --user admin:admin http://localhost:8080/cms/webdav/default/webfiles/site/
+          ]]></source>
+        </div>
+        <p>
+          If successful, you get a list of the children under /webfiles/site/.
+        </p>
+      </subsection>
+
+    </section>
+
+  </body>
+</document>
