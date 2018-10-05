@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2018 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Example - WebFiles via WebDAV</title>
+  </properties>
+  <body>
+
+    <section name="Example - WebFiles via WebDAV">
+
+      <subsection name="Introduction">
+        <p>
+          In this page, a scenario utilizing
+          <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#Simple_Webdav_Server">Jacktabbit Simple Webdav Server</a>
+          with Hippo CMS is explained as an example.
+        </p>
+        <p>
+          <a href="https://www.onehippo.org/library/concepts/web-files/web-files-introduction.html">WebFiles</a> in Hippo CMS
+          uses the default JCR folders (<code>nt:folder</code>) and files (<code>nt:file</code>) to store the files.
+          So, it is easily mapped to WebDAV representations as collections and files.
+        </p>
+        <p>
+          We will expose the <a href="https://www.onehippo.org/library/concepts/web-files/web-files-introduction.html">WebFiles</a>
+          as WebDAV collection and show how to browse, download and upload files by using a WebDAV client tool below.
+        </p>
+      </subsection>
+
+      <subsection name="WebDAV Client Tools">
+        <p>
+          There are many WebDAV client tools including populr web browsers (for browsing and reading at least),
+          according to a <a href="https://en.wikipedia.org/wiki/Comparison_of_WebDAV_software">Comparison of WebDAV software</a> Wikipedia page.
+          So, it is almost impossible to introduce all the available client tools here, but the following tools are found useful:
+        </p>
+        <ul>
+          <li>
+            <strong>Cadaver</strong>:
+            Command line tool, providing more than similar features to SFTP such as
+            <code>get</code>, <code>mget</code>, <code>put</code>, <code>mput</code>, <code>copy</code>, <code>move</code>,
+            <code>delete</code>, <code>cat</code>, <code>edit</code>, ...
+          </li>
+          <li>
+            <strong><a href="https://cyberduck.io/">CyberDuck</a></strong>:
+            GUI tool for MacOS and Windows, providing a synchronization feature between local folder and WebDAV collection.
+          </li>
+          <li>
+            <strong>DaviX</strong>:
+            Command line tool, used at <a href="https://en.wikipedia.org/wiki/CERN">CERN</a> by several projects.
+          </li>
+          <li>
+            <strong><a href="https://www.eclipse.org/eclipse/platform-team/target.php">Eclipse supports WebDAV plugin</a></strong>
+          </li>
+        </ul>
+        <p>
+          In this page, we are going to use <strong>Cadaver</strong> to demonstrate how to access WebFiles through WebDAV.
+        </p>
+        <p>
+          To install <strong>Cadaver</strong>,
+        </p>
+        <ul>
+          <li>
+            For Mac, you can install it by executing <code>brew install cadaver</code>.
+            See <a href="http://macappstore.org/cadaver/">http://macappstore.org/cadaver/</a> for more detail.
+          </li>
+          <li>
+            For linux, see <a href="https://pkgs.org/download/cadaver">https://pkgs.org/download/cadaver</a>.
+          </li>
+          <li>
+            For Windows, see <a href="http://www.phtagr.org/2009/04/01/cadaver-for-windows/">http://www.phtagr.org/2009/04/01/cadaver-for-windows/</a>.
+          </li>
+        </ul>
+      </subsection>
+
+      <subsection name="Exposing WebFiles as WebDAV Collection">
+        <p>
+          If you followed the <a href="simple-webdav-support.html">Simple Webdav Server Installation</a> step,
+          then the <code>/webfiles</code> JCR node is already exposed through WebDAV path: <code>/default/webfiles/</code>.
+          e.g. <code>http://localhost:8080/cms/webdav/default/webfiles/</code>.
+        </p>
+        <p>
+          Note that <code>/cms</code> is the context path of the web application where you've set up the Simple WebDAV Server,
+          <code>/webdav</code> is the servlet mapping path you've configured in the <code>web.xml</code>,
+          <code>/default</code> is the JCR workspace name and Hippo CMS uses the <code>default</code> workspace only,
+          and finally <code>/webfiles</code> is the JCR node path you want to access.
+        </p>
+        <p>
+          However, for security reason, you might want to limit WebDAV access only to <code>/webfiles</code> node,
+          not anywhere else such as <code>/content</code> or <code>/hippo:configuration</code>.
+          To achieve that, the demo project simply leveraged the <a href="http://tuckey.org/urlrewrite/">Tuckey UrlRewriteFilter</a>.
+          by setting <code>UrlRewriteFilter</code> servlet filter in
+          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/web.xml">/WEB-INF/web.xml</a>
+          with a custom
+          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>.
+        </p>
+      </subsection>
+
+      <subsection name="Access with WebDAV Client Tool">
+        <p>
+          Here's <strong>cadaver</strong> command examples to download files, edit and upload files.
+        </p>
+        <div class="brush: bash">
+        <source><![CDATA[
+$ cadaver http://localhost:8080/cms/webdav/default/webfiles/
+Authentication required for Hippo Repository WebDAV Access Support on server `localhost':
+Username: admin
+Password: 
+
+dav:/cms/webdav/default/webfiles/> help
+Available commands: 
+ ls         cd         pwd        put        get        mget       mput       
+ edit       less       mkcol      cat        delete     rmcol      copy       
+ move       lock       unlock     discover   steal      showlocks  version    
+ checkin    checkout   uncheckout history    label      propnames  chexec     
+ propget    propdel    propset    search     set        open       close      
+ echo       quit       unset      lcd        lls        lpwd       logout     
+ help       describe   about      
+Aliases: rm=delete, mkdir=mkcol, mv=move, cp=copy, more=less, quit=exit=bye
+
+dav:/cms/webdav/default/webfiles/> ls
+Listing collection `/cms/webdav/default/webfiles/': succeeded.
+Coll:   site                                   0  Oct  5 11:48
+
+dav:/cms/webdav/default/webfiles/> cd site/freemarker/hipporepojcrdavdemo
+dav:/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/> ls
+Listing collection `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/': succeeded.
+        base-footer.ftl                      244  Oct  5 10:24
+        base-layout.ftl                     1012  Oct  5 10:24
+        base-top-menu.ftl                   1194  Oct  5 10:24
+        homepage-main.ftl                    516  Oct  5 10:24
+        pagenotfound-main.ftl                299  Oct  5 10:24
+
+dav:/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/> mget *.ftl
+[Matching... 5 matches.]
+Downloading `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/pagenotfound-main.ftl' to pagenotfound-main.ftl:
+Progress: [=============================>] 100.0% of 299 bytes succeeded.
+Downloading `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/homepage-main.ftl' to homepage-main.ftl:
+Progress: [=============================>] 100.0% of 516 bytes succeeded.
+Downloading `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-top-menu.ftl' to base-top-menu.ftl:
+Progress: [=============================>] 100.0% of 1194 bytes succeeded.
+Downloading `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-layout.ftl' to base-layout.ftl:
+Progress: [=============================>] 100.0% of 1012 bytes succeeded.
+Downloading `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-footer.ftl' to base-footer.ftl:
+Progress: [=============================>] 100.0% of 244 bytes succeeded.
+        ]]></source>
+        </div>
+        <p>
+          Now, you can edit and save the downloaded FreeMarker template files locally, using your favoirte editor.
+          Afterward, you can upload the files.
+          Of course, you may use <code>get</code> and <code>put</code> command instead for single file.
+        </p>
+        <div class="brush: bash">
+        <source><![CDATA[
+dav:/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/> mput *.ftl
+[Matching... 5 matches.]
+Uploading base-top-menu.ftl to `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-top-menu.ftl':
+Progress: [=============================>] 100.0% of 1194 bytes succeeded.
+Uploading pagenotfound-main.ftl to `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/pagenotfound-main.ftl':
+Progress: [=============================>] 100.0% of 299 bytes succeeded.
+Uploading base-layout.ftl to `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-layout.ftl':
+Progress: [=============================>] 100.0% of 1012 bytes succeeded.
+Uploading base-footer.ftl to `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/base-footer.ftl':
+Progress: [=============================>] 100.0% of 244 bytes succeeded.
+Uploading homepage-main.ftl to `/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/homepage-main.ftl':
+Progress: [=============================>] 100.0% of 516 bytes succeeded.
+        ]]></source>
+        </div>
+      </subsection>
+
+    </section>
+
+  </body>
+</document>

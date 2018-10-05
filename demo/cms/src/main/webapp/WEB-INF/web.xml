@@ -28,6 +28,12 @@
     <param-value>repository.xml</param-value>
   </context-param>
 
+  <!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. -->
+  <filter>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+  </filter>
+
   <!--No concurrent logins-->
   <filter>
     <filter-name>ConcurrentLogin</filter-name>
@@ -85,6 +91,14 @@
       <param-value>vm://</param-value>
     </init-param>
   </filter>
+
+  <!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. -->
+  <filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/webdav/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
 
   <filter-mapping>
     <filter-name>ConcurrentLogin</filter-name>

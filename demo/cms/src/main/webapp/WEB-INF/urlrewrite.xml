@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<!--
+
+    Configuration file for UrlRewriteFilter
+    http://www.tuckey.org/urlrewrite/
+
+-->
+<urlrewrite>
+
+    <rule match-type="regex">
+        <note>
+            The rule means that requests to /webdav/ will be redirected to /webdav/default/webfiles/
+            the url will be rewritten.
+        </note>
+        <from>^\/webdav\/?$</from>
+        <to type="redirect" last="true">%{context-path}/webdav/default/webfiles/</to>
+    </rule>
+
+    <rule match-type="regex">
+        <note>
+            The rule means that requests to /webdav/*, other than /webdav/default/webfiles/*, will be resulted in 403 error.
+        </note>
+        <from>^(?!\/webdav\/default\/webfiles\/?.*).*$</from>
+        <set type="status">403</set>
+        <to last="true">null</to>
+    </rule>
+
+</urlrewrite>
