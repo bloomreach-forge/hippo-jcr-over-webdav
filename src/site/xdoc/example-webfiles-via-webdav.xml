@@ -106,15 +106,75 @@
           by setting <code>UrlRewriteFilter</code> servlet filter in
           <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/web.xml">/WEB-INF/web.xml</a>
           with a custom
-          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>.
+          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>
+          like the following examples:
         </p>
+
+        <p>&nbsp;</p>
+        <p>/WEB-INF/web.xml:</p>
+        <div class="brush: xml">
+        <source><![CDATA[
+
+  <!-- SNIP -->
+
+  <!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. -->
+  <filter>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+  </filter>
+
+  <!-- SNIP -->
+
+  <!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. -->
+  <filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/webdav/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+  </filter-mapping>
+
+  <!-- SNIP -->
+
+        ]]></source>
+        </div>
+
+        <p>&nbsp;</p>
+        <p>/WEB-INF/urlrewrite.xml:</p>
+        <div class="brush: xml">
+        <source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite>
+
+    <rule match-type="regex">
+        <note>
+            The rule means that requests to /webdav/ will be redirected to /webdav/default/webfiles/
+            the url will be rewritten.
+        </note>
+        <from>^\/webdav\/?$</from>
+        <to type="redirect" last="true">default/webfiles/</to>
+    </rule>
+
+    <rule match-type="regex">
+        <note>
+            The rule means that requests to /webdav/*, other than /webdav/default/webfiles/*, will be resulted in 403 error.
+        </note>
+        <from>^(?!\/webdav\/default\/webfiles\/?.*).*$</from>
+        <set type="status">403</set>
+        <to last="true">null</to>
+    </rule>
+
+</urlrewrite>
+        ]]></source>
+        </div>
+
       </subsection>
 
       <subsection name="Access with WebDAV Client Tool">
         <p>
           Here's <strong>cadaver</strong> command examples to download files, edit and upload files.
         </p>
-        <div class="brush: bash">
+        <div class="brush: plain">
         <source><![CDATA[
 $ cadaver http://localhost:8080/cms/webdav/default/webfiles/
 Authentication required for Hippo Repository WebDAV Access Support on server `localhost':
@@ -164,7 +224,7 @@ Progress: [=============================>] 100.0% of 244 bytes succeeded.
           Afterward, you can upload the files.
           Of course, you may use <code>get</code> and <code>put</code> command instead for single file.
         </p>
-        <div class="brush: bash">
+        <div class="brush: plain">
         <source><![CDATA[
 dav:/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/> mput *.ftl
 [Matching... 5 matches.]
