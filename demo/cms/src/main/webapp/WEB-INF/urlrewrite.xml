@@ -14,7 +14,7 @@
             the url will be rewritten.
         </note>
         <from>^\/webdav\/?$</from>
-        <to type="redirect" last="true">%{context-path}/webdav/default/webfiles/</to>
+        <to type="redirect" last="true">default/webfiles/</to>
     </rule>
 
     <rule match-type="regex">
