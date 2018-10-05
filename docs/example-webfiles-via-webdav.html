@@ -198,8 +198,76 @@
           by setting <tt>UrlRewriteFilter</tt> servlet filter in
           <a class="externalLink" href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/web.xml">/WEB-INF/web.xml</a>
           with a custom
-          <a class="externalLink" href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>.
+          <a class="externalLink" href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>
+          like the following examples:
         </p>
+
+        
+<p>&#160;</p>
+        
+<p>/WEB-INF/web.xml:</p>
+        
+<div class="brush: xml">
+        
+<div class="source"><pre>
+
+  &lt;!-- SNIP --&gt;
+
+  &lt;!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. --&gt;
+  &lt;filter&gt;
+    &lt;filter-name&gt;UrlRewriteFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.tuckey.web.filters.urlrewrite.UrlRewriteFilter&lt;/filter-class&gt;
+  &lt;/filter&gt;
+
+  &lt;!-- SNIP --&gt;
+
+  &lt;!-- This UrlRewriteFilter is a demo only to control requests to /webdav/*. --&gt;
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;UrlRewriteFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/webdav/*&lt;/url-pattern&gt;
+    &lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+    &lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
+  &lt;/filter-mapping&gt;
+
+  &lt;!-- SNIP --&gt;
+
+        </pre></div>
+        </div>
+
+        
+<p>&#160;</p>
+        
+<p>/WEB-INF/urlrewrite.xml:</p>
+        
+<div class="brush: xml">
+        
+<div class="source"><pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE urlrewrite PUBLIC &quot;-//tuckey.org//DTD UrlRewrite 4.0//EN&quot; &quot;http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd&quot;&gt;
+&lt;urlrewrite&gt;
+
+    &lt;rule match-type=&quot;regex&quot;&gt;
+        &lt;note&gt;
+            The rule means that requests to /webdav/ will be redirected to /webdav/default/webfiles/
+            the url will be rewritten.
+        &lt;/note&gt;
+        &lt;from&gt;^\/webdav\/?$&lt;/from&gt;
+        &lt;to type=&quot;redirect&quot; last=&quot;true&quot;&gt;default/webfiles/&lt;/to&gt;
+    &lt;/rule&gt;
+
+    &lt;rule match-type=&quot;regex&quot;&gt;
+        &lt;note&gt;
+            The rule means that requests to /webdav/*, other than /webdav/default/webfiles/*, will be resulted in 403 error.
+        &lt;/note&gt;
+        &lt;from&gt;^(?!\/webdav\/default\/webfiles\/?.*).*$&lt;/from&gt;
+        &lt;set type=&quot;status&quot;&gt;403&lt;/set&gt;
+        &lt;to last=&quot;true&quot;&gt;null&lt;/to&gt;
+    &lt;/rule&gt;
+
+&lt;/urlrewrite&gt;
+        </pre></div>
+        </div>
+
       </div>
 
       
@@ -210,7 +278,7 @@
           Here's <b>cadaver</b> command examples to download files, edit and upload files.
         </p>
         
-<div class="brush: bash">
+<div class="brush: plain">
         
 <div class="source"><pre>
 $ cadaver http://localhost:8080/cms/webdav/default/webfiles/
@@ -263,7 +331,7 @@ Progress: [=============================&gt;] 100.0% of 244 bytes succeeded.
           Of course, you may use <tt>get</tt> and <tt>put</tt> command instead for single file.
         </p>
         
-<div class="brush: bash">
+<div class="brush: plain">
         
 <div class="source"><pre>
 dav:/cms/webdav/default/webfiles/site/freemarker/hipporepojcrdavdemo/&gt; mput *.ftl
