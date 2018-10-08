@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC
+  "-//Apache Software Foundation//DTD XDOC 1.0//EN"
+  "http://maven.apache.org/dtd/xdoc_1_0.dtd">
+<!--
+    Copyright 2018 Hippo
+
+    Licensed under the Apache License, Version 2.0 (the  "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<document>
+  <properties>
+    <title>Simple WebDAV Advanced - Security Framework Integration</title>
+  </properties>
+  <body>
+
+    <section name="Simple WebDAV Advanced - Security Framework Integration">
+      <p>
+        You can optionally integrate the <code>SimpleWebdavServlet</code> with a Web Application Security Framework
+        such as Spring Security Framework.
+        <code>SimpleWebdavServlet</code> allows you to override <code>#getCredentialsProvider()</code> method
+        which gives a <code>org.apache.jackrabbit.server.CredentialsProvider</code> returning a valid <code>javax.jcr.Credentials</code> object
+        for the WebDAV session and handles the basic authentication payloads by default if necessary.
+      </p>
+      <p>
+        Therefore, if you set a servlet filter provided by a Web Application Security Framework before the
+        <code>SimpleWebdavServlet</code>, then it is technically possible to read the authentication information,
+        established by the Web Application Security Framework,
+        and return a <code>javax.jcr.Credentials</code> object from your custom <code>CredentialsProvider</code>.
+        If <code>SimpleWebdavServlet</code> finds a valid <code>javax.jcr.Credentials</code> object from your
+        custom <code>CredentialsProvider</code>, then it won't ask for basic authentication any more.
+      </p>
+    </section>
+
+    <section name="Example Scenario with Spring Security Framework">
+      <div class="alert alert-warning">
+        <p>
+          This example is only for explanation purpose, not meant to be used directly in production.
+          You should understand more about the underlying Web Application Security Framework and your own
+          requirements and architectural concerns.
+        </p>
+      </div>
+      <p>
+        Suppose you configured Spring Security Framework in the web application and so a servlet filter provided
+        by the Spring Security Framework handles authentication before <code>SimpleWebdavServlet</code>,
+        with the following example configuration:
+      </p>
+      <div class="brush: xml">
+      <source><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+  <http auto-config="true"
+        use-expressions="true"
+        realm="Hippo CMS WebDAV">
+    <csrf disabled="true"/>
+    <intercept-url pattern="/webdav/" access="permitAll" />
+    <intercept-url pattern="/webdav/default/webfiles/**" access="isAuthenticated()" />
+    <intercept-url pattern="/webdav/default/**" access="denyAll" />
+    <http-basic />
+  </http>
+
+  <authentication-manager>
+    <authentication-provider ref="hippoRepositoryAuthenticationProvider" />
+  </authentication-manager>
+
+  <beans:bean id="hippoRepositoryAuthenticationProvider"
+              class="com.example.security.spring.HippoRepositoryAuthenticationProvider">
+  </beans:bean>
+
+</beans:beans>
+      ]]></source>
+      </div>
+      <p>
+        The <code>HippoRepositoryAuthenticationProvider</code> can be implemented like the following (as a simplified version):
+      </p>
+      <div class="brush: java">
+      <source><![CDATA[
+public class HippoRepositoryAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+    private String repositoryAddress = "vm://";
+    private HippoRepository repository;
+
+    public HippoRepository getRepository() throws RepositoryException {
+        if (repository == null) {
+            repository = HippoRepositoryFactory.getHippoRepository(repositoryAddress);
+        }
+        return repo;
+    }
+
+    @Override
+    protected void additionalAuthenticationChecks(UserDetails userDetails,
+            UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+        // SNIP
+    }
+
+    @Override
+    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
+            throws AuthenticationException {
+        Session session = null;
+        final String password = authentication.getCredentials().toString();
+        final Credentials credentials = new SimpleCredentials(username, password.toCharArray());
+
+        try {
+            session = getRepository().login(credentials);
+        } catch (LoginException e) {
+            throw new BadCredentialsException(e.getMessage());
+        } catch (RepositoryException e) {
+            throw new ProviderNotFoundException(e.getMessage());
+        } finally {
+            try {
+                session.logout();
+            } catch (Exception ignore) {
+            }
+        }
+
+        final Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        return new HippoRepositoryUser(username, password, authorities, credentials);
+    }
+
+    public static class HippoRepositoryUser extends User {
+        private final Credentials credentials;
+
+        public HippoRepositoryUser(String username, String password, Collection<? extends GrantedAuthority> authorities,
+                Credentials credentials) {
+            super(username, password, authorities);
+            this.credentials = credentials;
+        }
+
+        public Credentials getCredentials() {
+            return credentials;
+        }
+    }
+}
+      ]]></source>
+      </div>
+      <p>
+        By the above configuratin and bean definition, Spring Security Framework will be able to handle authentication
+        and possibly it may keep the authentication state for the next servlet chain including <code>SimpleWebdavServlet</code>.
+      </p>
+      <p>
+        Now, let's extend <code>SimpleWebdavServlet</code> to use the stored <code>HippoRepositoryUser</code> data
+        without having to handle basic authentication again:
+      </p>
+      <div class="brush: java">
+      <source><![CDATA[
+public class MyCustomSimpleWebdavServlet extends SimpleWebdavServlet {
+
+    @Override
+    protected CredentialsProvider getCredentialsProvider() {
+        return new CredentialsProvider() {
+            @Override
+            public Credentials getCredentials(HttpServletRequest request) throws LoginException, ServletException {
+                final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if (authentication == null) {
+                    throw new LoginException("Not authenticated.");
+                }
+                final Object user = authentication.getPrincipal();
+                if (!(user instanceof HippoRepositoryUser)) {
+                    throw new LoginException("Not authenticated.");
+                }
+
+                // Return credentials from Spring Security Framework's AuthenticationProvider
+                // without having to proceed with custom basic authentication again.
+                return ((HippoRepositoryUser) user).getCredentials();
+            }
+        };
+    }
+}
+      ]]></source>
+      </div>
+      <p>
+        Now, you can replace the servlet definition with your custom class extending <code>SimpleWebdavServlet</code>
+        in the web.xml:
+      </p>
+      <div class="brush: xml">
+      <source><![CDATA[
+
+  <!-- SNIP -->
+
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) to your jackrabbit repository.
+  -->
+  <servlet>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <servlet-class>com.example.webdav.MyCustomSimpleWebdavServlet</servlet-class>
+    <!-- SNIP -->
+  </servlet>
+
+  <!-- SNIP -->
+
+  <!--
+    WebDAV support (DAV 1,2 and DeltaV) Servlet Mapping:
+  -->
+  <servlet-mapping>
+    <servlet-name>SimpleWebdavServlet</servlet-name>
+    <url-pattern>/webdav/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- SNIP -->
+
+      ]]></source>
+      </div>
+
+    </section>
+
+  </body>
+</document>

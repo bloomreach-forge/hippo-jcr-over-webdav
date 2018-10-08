@@ -23,7 +23,7 @@
   </properties>
   <body>
 
-    <section name="Installation">
+    <section name="Simple WebDAV Support">
       <p>
         Apache Jackrabbit support <a href="http://jackrabbit.apache.org/jcr/components/jackrabbit-web-application.html#Simple_Webdav_Server">Simple Webdav Server</a> additionally.
       </p>
@@ -119,6 +119,7 @@
           ]]></source>
         </div>
       </subsection>
+
       <subsection name="How to Know It's Working?">
         <p>
           You can test if it is working by running command lines like the following example.
