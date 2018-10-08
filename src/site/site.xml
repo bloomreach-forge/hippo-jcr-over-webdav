@@ -39,6 +39,7 @@
       <item name="Command Line Examples" href="cmd-examples.html"/>
       <item name="Simple WebDAV Support" href="simple-webdav-support.html">
         <item name="Example - WebFiles via WebDAV" href="example-webfiles-via-webdav.html" />
+        <item name="Advanced - Security Framework Integration" href="simple-webdav-security-integration.html" />
       </item>
       <item name="Release Notes" href="release-notes.html"/>
     </menu>
