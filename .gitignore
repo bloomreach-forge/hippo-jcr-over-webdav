@@ -10,3 +10,5 @@ servlet/.project
 servlet/.settings
 servlet/target
 /target
+.idea/
+*.iml

@@ -104,9 +104,9 @@
           not anywhere else such as <code>/content</code> or <code>/hippo:configuration</code>.
           To achieve that, the demo project simply leveraged the <a href="http://tuckey.org/urlrewrite/">Tuckey UrlRewriteFilter</a>.
           by setting <code>UrlRewriteFilter</code> servlet filter in
-          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/web.xml">/WEB-INF/web.xml</a>
+          <a href="https://github.com/bloomreach-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/web.xml">/WEB-INF/web.xml</a>
           with a custom
-          <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>
+          <a href="https://github.com/bloomreach-forge/hippo-jcr-over-webdav/blob/develop/demo/cms/src/main/webapp/WEB-INF/urlrewrite.xml">/WEB-INF/urlrewrite.xml</a>
           like the following examples:
         </p>
 

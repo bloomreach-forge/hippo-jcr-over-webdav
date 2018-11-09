@@ -53,7 +53,7 @@
     <section name="Demo Application">
       <subsection name="Check out demo application">
         <p>
-          Fork me on GitHub: <a href="https://github.com/onehippo-forge/hippo-jcr-over-webdav" target="_blank">https://github.com/onehippo-forge/hippo-jcr-over-webdav</a>.
+          Fork me on GitHub: <a href="https://github.com/bloomreach-forge/hippo-jcr-over-webdav" target="_blank">https://github.com/bloomreach-forge/hippo-jcr-over-webdav</a>.
         </p>
         <p>
           Build the project using Maven:
