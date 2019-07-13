@@ -15,9 +15,14 @@
  */
 package org.onehippo.forge.repository.server.remoting.davex;
 
+import java.io.IOException;
+
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
 
 import org.hippoecm.repository.HippoRepositoryFactory;
 import org.onehippo.forge.repository.server.JcrHippoRepositoryWrapper;
@@ -43,11 +48,15 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
 
     public static final String ALLOW_ANONYMOUS_ACCESS_PARAM = "allowAnonymousAccess";
 
+    public static final String DO_MKCOL_ON_POST_PARAM = "doMkcolOnPost";
+
     private String repositoryAddress = "vm://";
 
     private volatile JcrHippoRepositoryWrapper repository;
 
     private boolean allowAnonymousAccess;
+
+    private boolean doMkcolOnPost;
 
     @Override
     public void init() throws ServletException {
@@ -62,8 +71,35 @@ public class JcrRemotingServlet extends org.apache.jackrabbit.server.remoting.da
         param = getInitParameter(ALLOW_ANONYMOUS_ACCESS_PARAM);
 
         if (param != null && !"".equals(param.trim())) {
-            allowAnonymousAccess = Boolean.parseBoolean(param);
+            allowAnonymousAccess = Boolean.parseBoolean(param.trim());
         }
+
+        param = getInitParameter(DO_MKCOL_ON_POST_PARAM);
+
+        if (param != null && !"".equals(param.trim())) {
+            doMkcolOnPost = Boolean.parseBoolean(param.trim());
+        }
+    }
+
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpServletRequest servletRequest = request;
+
+        if (doMkcolOnPost) {
+            final String methodName = request.getMethod();
+
+            if ("POST".equalsIgnoreCase(methodName)) {
+                servletRequest = new HttpServletRequestWrapper(request) {
+                    @Override
+                    public String getMethod() {
+                        return "MKCOL";
+                    }
+                };
+            }
+        }
+
+        super.service(servletRequest, response);
     }
 
     @Override

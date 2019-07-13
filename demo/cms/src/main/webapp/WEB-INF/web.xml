@@ -209,6 +209,11 @@
       <param-name>allowAnonymousAccess</param-name>
       <param-value>false</param-value>
     </init-param>
+    <!-- Set doMkcolOnPost parameter to true if you want to use POST method for MKCOL method as well. -->
+    <init-param>
+      <param-name>doMkcolOnPost</param-name>
+      <param-value>true</param-value>
+    </init-param>
     <init-param>
       <param-name>missing-auth-mapping</param-name>
       <param-value></param-value>
