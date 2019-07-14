@@ -38,6 +38,10 @@
       </table>
     </section>
     <section name="Release Notes">
+      <subsection name="1.1.4">
+        <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-302'>HIPFORGE-302</a>] -         [Repository WebDAV Support] Option to use POST method instead of MKCOL in JcrRemotingServlet
+        </li>
+      </subsection>
       <subsection name="1.1.3">
         <li>[<a href='https://issues.onehippo.com/browse/HIPFORGE-207'>HIPFORGE-207</a>] -         [Repository WebDAV Support] Disallow anonymous access by default
         </li>

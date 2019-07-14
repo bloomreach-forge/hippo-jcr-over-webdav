@@ -3,7 +3,7 @@
   "-//Apache Software Foundation//DTD XDOC 1.0//EN"
   "http://maven.apache.org/dtd/xdoc_1_0.dtd">
 <!--
-    Copyright 2009 Hippo
+    Copyright 2009-2019 Hippo
 
     Licensed under the Apache License, Version 2.0 (the  "License");
     you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@
       </p>
 
       <subsection name="Creating a node - creates 'hello' node under the root node:">
+
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --request MKCOL --data @- --user admin:admin \
@@ -45,6 +46,29 @@ $ curl --request MKCOL --data @- --user admin:admin \
 > END
           ]]></source>
         </div>
+
+        <br/>
+        <p>
+          If you set the init parameter, <code>doMkcolOnPost</code>, to <code>true</code> (<code>false</code> by default)
+          for the <code>JCRWebdavServer</code> servlet (see <a href="install.html">Installation</a> page),
+          then you can use <code>POST</code> method as well as <code>MKCOL</code> method to create a node like the following:
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --request POST --header "Content-Type: applicaiton/xml" --data @- --user admin:admin \
+> http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
+> <sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
+> <sv:property sv:name="message" sv:type="String">
+> <sv:value>Hello, World!</sv:value>
+> </sv:property>
+> <sv:property sv:name="date" sv:type="Date">
+> <sv:value>2012-12-31T12:00:00.000Z</sv:value>
+> </sv:property>
+> </sv:node>
+> END
+          ]]></source>
+        </div>
+
       </subsection>
 
       <subsection name="Read the node:">
