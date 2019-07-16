@@ -55,7 +55,7 @@ $ curl --request MKCOL --data @- --user admin:admin \
         </p>
         <div class="brush: bash">
           <source><![CDATA[
-$ curl --request POST --header "Content-Type: applicaiton/xml" --data @- --user admin:admin \
+$ curl --request POST --header "Content-Type: application/xml" --data @- --user admin:admin \
 > http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
 > <sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
 > <sv:property sv:name="message" sv:type="String">
