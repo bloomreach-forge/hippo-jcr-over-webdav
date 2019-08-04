@@ -34,16 +34,16 @@
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --request MKCOL --data @- --user admin:admin \
-> http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
-> <sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
-> <sv:property sv:name="message" sv:type="String">
-> <sv:value>Hello, World!</sv:value>
-> </sv:property>
-> <sv:property sv:name="date" sv:type="Date">
-> <sv:value>2012-12-31T12:00:00.000Z</sv:value>
-> </sv:property>
-> </sv:node>
-> END
+  http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
+<sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
+  <sv:property sv:name="message" sv:type="String">
+    <sv:value>Hello, World!</sv:value>
+  </sv:property>
+  <sv:property sv:name="date" sv:type="Date">
+    <sv:value>2012-12-31T12:00:00.000Z</sv:value>
+  </sv:property>
+</sv:node>
+END
           ]]></source>
         </div>
 
@@ -56,16 +56,16 @@ $ curl --request MKCOL --data @- --user admin:admin \
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --request POST --header "Content-Type: application/xml" --data @- --user admin:admin \
-> http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
-> <sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
-> <sv:property sv:name="message" sv:type="String">
-> <sv:value>Hello, World!</sv:value>
-> </sv:property>
-> <sv:property sv:name="date" sv:type="Date">
-> <sv:value>2012-12-31T12:00:00.000Z</sv:value>
-> </sv:property>
-> </sv:node>
-> END
+  http://localhost:8080/cms/server/default/jcr:root/hello/ <<END
+<sv:node sv:name="hello" xmlns:sv="http://www.jcp.org/jcr/sv/1.0">
+  <sv:property sv:name="message" sv:type="String">
+    <sv:value>Hello, World!</sv:value>
+  </sv:property>
+  <sv:property sv:name="date" sv:type="Date">
+    <sv:value>2012-12-31T12:00:00.000Z</sv:value>
+  </sv:property>
+</sv:node>
+END
           ]]></source>
         </div>
 
@@ -75,6 +75,7 @@ $ curl --request POST --header "Content-Type: application/xml" --data @- --user 
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --user admin:admin http://localhost:8080/cms/server/default/jcr:root/hello/
+
 <?xml version="1.0" encoding="UTF-8"?>
 <sv:node xmlns:sv="http://www.jcp.org/jcr/sv/1.0" sv:name="hello">
   <sv:property sv:name="jcr:primaryType" sv:type="Name">
@@ -95,8 +96,8 @@ $ curl --user admin:admin http://localhost:8080/cms/server/default/jcr:root/hell
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --request PUT --header "Content-Type: jcr-value/date" \
-> --data "2012-12-30T12:00:00.000Z" --user admin:admin \
-> http://localhost:8080/server/default/jcr:root/hello/date
+  --data "2012-12-30T12:00:00.000Z" --user admin:admin \
+  http://localhost:8080/server/default/jcr:root/hello/date
           ]]></source>
         </div>
       </subsection>
@@ -104,8 +105,9 @@ $ curl --request PUT --header "Content-Type: jcr-value/date" \
       <subsection name="Update 'history' property of the 'hello' node:">
         <div class="brush: bash">
           <source><![CDATA[
-$ curl --request PUT --header "Content-Type: jcr-value/string" \> --data "Document data updated" --user admin:admin \
-> http://localhost:8080/cms/server/default/jcr:root/hello/history
+$ curl --request PUT --header "Content-Type: jcr-value/string" \
+  --data "Document data updated" --user admin:admin \
+  http://localhost:8080/cms/server/default/jcr:root/hello/history
           ]]></source>
         </div>
       </subsection>
@@ -114,7 +116,140 @@ $ curl --request PUT --header "Content-Type: jcr-value/string" \> --data "Docume
         <div class="brush: bash">
           <source><![CDATA[
 $ curl --request DELETE --user admin:admin \
-> http://localhost:8080/cms/server/default/jcr:root/hello/
+  http://localhost:8080/cms/server/default/jcr:root/hello/
+          ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Get the metadata of the node:">
+        <p>
+          A <code>PROPFIND</code> request with "<code>Depth: 0</code>" HTTP header will return an XML response
+          with the node metadata:.
+        </p>
+        <p>
+          <em>Note:</em> The <code>Depth</code> HTTP header supports only 0, 1 and "infinity" as shown below.
+          It will result in 400 (Bad Request) error if specified with other values.
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --request PROPFIND --header "Depth: 0" --user admin:admin \
+  http://localhost:8080/cms/server/default/jcr:root/hst:hst/
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<D:multistatus xmlns:D="DAV:">
+  <D:response>
+    <D:href>http://localhost:8080/cms/server/default/jcr%3aroot/hst%3ahst/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>1970-01-01T00:00:00Z</D:creationdate>
+        <dcr:name xmlns:dcr="http://www.day.com/jcr/webdav/1.0">hst:hst</dcr:name>
+        <dcr:depth xmlns:dcr="http://www.day.com/jcr/webdav/1.0">1</dcr:depth>
+        <D:getlastmodified>Sun, 04 Aug 2019 14:11:01 GMT</D:getlastmodified>
+        <D:iscollection>1</D:iscollection>
+        <dcr:mixinnodetypes xmlns:dcr="http://www.day.com/jcr/webdav/1.0"/>
+        <!-- SNIP -->
+        <D:resourcetype><D:collection/></D:resourcetype>
+        <!-- SNIP -->
+        <dcr:primarynodetype xmlns:dcr="http://www.day.com/jcr/webdav/1.0">
+          <dcr:nodetype>
+            <dcr:nodetypename>hst:hst</dcr:nodetypename>
+          </dcr:nodetype>
+        </dcr:primarynodetype>
+        <D:displayname>hst:hst</D:displayname>
+        <!-- SNIP -->
+        <dcr:path xmlns:dcr="http://www.day.com/jcr/webdav/1.0">/hst:hst</dcr:path>
+        <dcr:workspaceName xmlns:dcr="http://www.day.com/jcr/webdav/1.0">default</dcr:workspaceName>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+</D:multistatus>
+          ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Get the metadata of the node and its child nodes:">
+        <p>
+          A <code>PROPFIND</code> request with "<code>Depth: 1</code>" HTTP header will return an XML response
+          with the metadata of the node and its child nodes, each of which is wrapped in a separate
+          <code>&lt;D:response&gt;</code> element.
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --request PROPFIND --header "Depth: 1" --user admin:admin \
+  http://localhost:8080/cms/server/default/jcr:root/hst:hst/
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<D:multistatus>
+  <D:response>
+    <D:href>http://localhost:8080/cms/server/default/jcr%3aroot/hst%3ahst/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>1970-01-01T00:00:00Z</D:creationdate>
+        <dcr:name>hst:hst</dcr:name>
+        <dcr:depth>1</dcr:depth>
+        <D:getlastmodified>Sun, 04 Aug 2019 13:58:48 GMT</D:getlastmodified>
+        <D:iscollection>1</D:iscollection>
+        <dcr:mixinnodetypes/>
+        <!-- SNIP -->
+        <dcr:primarynodetype>
+          <dcr:nodetype>
+            <dcr:nodetypename>hst:hst</dcr:nodetypename>
+          </dcr:nodetype>
+        </dcr:primarynodetype>
+        <D:displayname>hst:hst</D:displayname>
+        <!-- SNIP -->
+        <dcr:path>/hst:hst</dcr:path>
+        <dcr:workspaceName>default</dcr:workspaceName>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <D:response>
+    <D:href>http://localhost:8080/cms/server/default/jcr%3aroot/hst%3ahst/hst%3aconfigurations/</D:href>
+    <D:propstat>
+      <D:prop>
+        <D:creationdate>1970-01-01T00:00:00Z</D:creationdate>
+        <dcr:name>hst:configurations</dcr:name>
+        <dcr:depth>2</dcr:depth>
+        <D:getlastmodified>Sun, 04 Aug 2019 13:58:48 GMT</D:getlastmodified>
+        <D:iscollection>1</D:iscollection>
+        <dcr:mixinnodetypes/>
+        <!-- SNIP -->
+        <dcr:primarynodetype>
+          <dcr:nodetype>
+            <dcr:nodetypename>hst:configurations</dcr:nodetypename>
+          </dcr:nodetype>
+        </dcr:primarynodetype>
+        <D:displayname>hst:configurations</D:displayname>
+        <!-- SNIP -->
+        <dcr:path>/hst:hst/hst:configurations</dcr:path>
+        <dcr:workspaceName>default</dcr:workspaceName>
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
+  </D:response>
+  <!-- SNIP -->
+</D:multistatus>
+          ]]></source>
+        </div>
+      </subsection>
+
+      <subsection name="Get the metadata of the node and all its descendant nodes:">
+        <p>
+          A <code>PROPFIND</code> request with "<code>Depth: infinity</code>" HTTP header will return an XML response
+          with the metadata of the node and all its descendant nodes, each of which is wrapped in a separate
+          <code>&lt;D:response&gt;</code> element.
+        </p>
+        <div class="brush: bash">
+          <source><![CDATA[
+$ curl --request PROPFIND --header "Depth: infinity" --user admin:admin \
+  http://localhost:8080/cms/server/default/jcr:root/hst:hst/
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<D:multistatus>
+  <!-- SNIP -->
+</D:multistatus>
           ]]></source>
         </div>
       </subsection>
